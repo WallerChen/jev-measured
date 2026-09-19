@@ -1,0 +1,309 @@
+{
+  "measured_at": "2026-09-18T11:00:51+00:00",
+  "model": "typesafe/jev-1.13",
+  "transport": "openrouter",
+  "endpoint": "https://openrouter.ai/api/alpha/decisions",
+  "network_floor": {
+    "host": "openrouter.ai",
+    "ok": true,
+    "samples": 7,
+    "min_ms": 191.2,
+    "median_ms": 198.8,
+    "max_ms": 266.4
+  },
+  "price_per_1m_input_usd": 0.042,
+  "cases": {
+    "support-ticket-triage": {
+      "slug": "support-ticket-triage",
+      "state": "Subject: Charged twice for September\n\nHi — I was billed $49 on the 3rd and again on the 4th. I only have one subscription. I've been a customer for two years and this is the second time. If it isn't refunded by Friday I'm cancelling and moving to a competitor. Order refs 88412 and 88437.",
+      "note": "A clear-cut billing ticket that also carries an explicit churn threat.",
+      "answers": {
+        "queue": {
+          "type": "choice",
+          "choice": "billing",
+          "confidence": 1,
+          "probabilities": {
+            "sales": 0,
+            "technical": 0,
+            "billing": 1,
+            "spam": 0,
+            "account": 0
+          }
+        },
+        "severity": {
+          "type": "score",
+          "score": 2.68,
+          "confidence": 0.68,
+          "legend": {
+            "0": "Low",
+            "1": "Normal",
+            "2": "High",
+            "3": "Urgent"
+          },
+          "probabilities": {
+            "0": 0,
+            "1": 0,
+            "2": 0.32,
+            "3": 0.68
+          }
+        },
+        "churn_risk": {
+          "type": "noul",
+          "noul": 0.99
+        }
+      },
+      "latency_ms": {
+        "min": 486.3,
+        "median": 514.9,
+        "runs": 3
+      },
+      "input_tokens": 539,
+      "cost_usd": 2.2638e-05,
+      "model": "typesafe/jev-1.13-20260917"
+    },
+    "llm-model-routing": {
+      "slug": "llm-model-routing",
+      "state": "what's the capital of australia",
+      "note": "The easy majority a cascade is supposed to catch before it reaches a frontier model.",
+      "answers": {
+        "tier": {
+          "type": "choice",
+          "choice": "trivial",
+          "confidence": 1,
+          "probabilities": {
+            "standard": 0,
+            "complex": 0,
+            "trivial": 1,
+            "needs_reasoning": 0
+          }
+        }
+      },
+      "latency_ms": {
+        "min": 456.4,
+        "median": 458.1,
+        "runs": 3
+      },
+      "input_tokens": 369,
+      "cost_usd": 1.5498e-05,
+      "model": "typesafe/jev-1.13-20260917"
+    },
+    "agent-tool-selection": {
+      "slug": "agent-tool-selection",
+      "state": "User: my flight to Berlin got cancelled, can you find me something tomorrow morning and let my hotel know I'll be late?",
+      "note": "Deliberately a two-step request — the interesting part is which step it picks first, and how sure it is.",
+      "answers": {
+        "tool": {
+          "type": "choice",
+          "choice": "search_flights",
+          "confidence": 0.99,
+          "probabilities": {
+            "search_flights": 1,
+            "book_flight": 0,
+            "send_email": 0,
+            "get_calendar": 0,
+            "web_search": 0
+          }
+        }
+      },
+      "latency_ms": {
+        "min": 498.8,
+        "median": 506.9,
+        "runs": 3
+      },
+      "input_tokens": 403,
+      "cost_usd": 1.6926e-05,
+      "model": "typesafe/jev-1.13-20260917"
+    },
+    "content-moderation": {
+      "slug": "content-moderation",
+      "state": "honestly whoever designed this checkout flow should be fired, it's the worst garbage I've used all year and I've used a lot of garbage",
+      "note": "Rude but not abusive — the band where a binary classifier is useless and a distribution is not.",
+      "answers": {
+        "severity": {
+          "type": "score",
+          "score": 0.32,
+          "confidence": 0.68,
+          "legend": {
+            "0": "Benign",
+            "1": "Questionable",
+            "2": "Harmful",
+            "3": "Severe"
+          },
+          "probabilities": {
+            "0": 0.69,
+            "1": 0.29,
+            "2": 0.02,
+            "3": 0
+          }
+        },
+        "targets_person": {
+          "type": "noul",
+          "noul": 0.05
+        },
+        "is_spam": {
+          "type": "noul",
+          "noul": 0.02
+        }
+      },
+      "latency_ms": {
+        "min": 489.1,
+        "median": 530.6,
+        "runs": 3
+      },
+      "input_tokens": 420,
+      "cost_usd": 1.764e-05,
+      "model": "typesafe/jev-1.13-20260917"
+    },
+    "phishing-detection": {
+      "slug": "phishing-detection",
+      "state": "From: IT Helpdesk <it-support@micros0ft-verify.com>\nSubject: Action required: your mailbox will be deactivated in 24 hours\n\nOur records show your password expires today. Click below within 24 hours to keep your account active.\nVerify now: http://mailbox-renew.verify-login.co/auth?id=8842",
+      "note": "Five signals in one call — the pattern the phishing benchmark found beats a single verdict question.",
+      "answers": {
+        "urgency": {
+          "type": "noul",
+          "noul": 0.97
+        },
+        "credentials": {
+          "type": "noul",
+          "noul": 0.86
+        },
+        "sender_odd": {
+          "type": "noul",
+          "noul": 0.81
+        },
+        "link_mismatch": {
+          "type": "noul",
+          "noul": 0.37
+        },
+        "unusual_ask": {
+          "type": "noul",
+          "noul": 0.02
+        }
+      },
+      "latency_ms": {
+        "min": 461.2,
+        "median": 498.9,
+        "runs": 3
+      },
+      "input_tokens": 533,
+      "cost_usd": 2.2386e-05,
+      "model": "typesafe/jev-1.13-20260917"
+    },
+    "rag-reranking": {
+      "slug": "rag-reranking",
+      "state": "QUESTION: How do I rotate an API key without downtime?\n\nPASSAGE: API keys are created in the dashboard under Settings > API. Each key has a name and a creation date. You can have up to ten active keys per project.",
+      "note": "The classic vector-search false positive: same topic, does not answer the question.",
+      "answers": {
+        "relevance": {
+          "type": "score",
+          "score": 0.96,
+          "confidence": 0.85,
+          "legend": {
+            "0": "Irrelevant",
+            "1": "Tangential",
+            "2": "Useful",
+            "3": "Directly answers"
+          },
+          "probabilities": {
+            "0": 0.09,
+            "1": 0.86,
+            "2": 0.05,
+            "3": 0
+          }
+        }
+      },
+      "latency_ms": {
+        "min": 543.3,
+        "median": 562.7,
+        "runs": 3
+      },
+      "input_tokens": 364,
+      "cost_usd": 1.5288e-05,
+      "model": "typesafe/jev-1.13-20260917"
+    },
+    "agent-output-guardrails": {
+      "slug": "agent-output-guardrails",
+      "state": "Thanks for reaching out! I've gone ahead and issued a full refund to Sarah Chen (sarah.chen@example.com) — you'll see it back on your card within 2 business days, guaranteed.",
+      "note": "A draft that should fail two checks at once: it leaks PII and guarantees a date.",
+      "answers": {
+        "answers": {
+          "type": "noul",
+          "noul": 0.75
+        },
+        "no_pii": {
+          "type": "noul",
+          "noul": 0.01
+        },
+        "on_brand": {
+          "type": "noul",
+          "noul": 0.89
+        },
+        "no_promise": {
+          "type": "noul",
+          "noul": 0.06
+        }
+      },
+      "latency_ms": {
+        "min": 452.5,
+        "median": 499.3,
+        "runs": 3
+      },
+      "input_tokens": 474,
+      "cost_usd": 1.9908e-05,
+      "model": "typesafe/jev-1.13-20260917"
+    },
+    "lead-scoring": {
+      "slug": "lead-scoring",
+      "state": "Name: Priya Raman\nEmail: p.raman@nimbusfreight.com\nMessage: We move about 4,000 shipments a month and our current routing vendor's contract ends in November. Who can I talk to about volume pricing and an SSO setup?\n\nCOMPANY: Nimbus Freight, logistics, ~800 employees",
+      "note": "Named contract end date plus a volume figure — should score high on both rubrics.",
+      "answers": {
+        "fit": {
+          "type": "score",
+          "score": 2.44,
+          "confidence": 0.44,
+          "legend": {
+            "0": "Poor",
+            "1": "Marginal",
+            "2": "Good",
+            "3": "Ideal"
+          },
+          "probabilities": {
+            "0": 0,
+            "1": 0.05,
+            "2": 0.44,
+            "3": 0.51
+          }
+        },
+        "intent": {
+          "type": "score",
+          "score": 2.38,
+          "confidence": 0.6,
+          "legend": {
+            "0": "Browsing",
+            "1": "Researching",
+            "2": "Evaluating",
+            "3": "Ready to buy"
+          },
+          "probabilities": {
+            "0": 0,
+            "1": 0.01,
+            "2": 0.6,
+            "3": 0.39
+          }
+        },
+        "competitor": {
+          "type": "noul",
+          "noul": 0.1
+        }
+      },
+      "latency_ms": {
+        "min": 481.8,
+        "median": 529.4,
+        "runs": 3
+      },
+      "input_tokens": 472,
+      "cost_usd": 1.9824e-05,
+      "model": "typesafe/jev-1.13-20260917"
+    }
+  }
+}
