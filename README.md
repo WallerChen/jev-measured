@@ -11,7 +11,7 @@ Published because most numbers circulating about Jev are either the vendor's own
 
 ---
 
-## Three findings
+## Findings
 
 ### 1. A real decision costs ~20× less than the figure in circulation
 
@@ -79,6 +79,97 @@ Note also that `probabilities` is keyed `"0"`, `"1"`, `"2"`… — by **index, n
 ```
 
 That is the entire object. If you need a confidence gate on a Noul, distance from 0.5 is what you have.
+
+---
+
+## 4. We measured Jev against chat models, published a wrong conclusion, and corrected it
+
+`bench/headtohead.py` puts the same fixtures to Jev and to three chat models
+through one gateway. Across eight fixtures, five runs each:
+
+| Model | Median | Mean cost | vs Jev |
+|---|---:|---:|---:|
+| typesafe/jev-1.13 | 352 ms | $0.0000188 | 1.0x |
+| mistral-small-3.2-24b | 1,343 ms | $0.0000255 | 1.4x |
+| gemini-2.5-flash-lite | 877 ms | $0.0000323 | 1.7x |
+| gpt-5-nano | 7,504 ms | $0.0003434 | 18.3x |
+
+Two things worth taking from that before the correction. A cheap chat model is
+**1.4–1.7x** the cost, not two orders of magnitude — on a single-question
+fixture `mistral-small` came out *cheaper* than Jev. And the large multiple
+belongs to a reasoning model spending output tokens on thinking, which is a
+different claim from "decision models are cheaper".
+
+**The correction.** We first ran the chat models with a plain prompt and found
+they returned the wrong *type* — asked for a probability between 0 and 1,
+`gemini-2.5-flash-lite` answered `true` on three runs of five, `gpt-5-nano`
+returned probabilities as strings, `mistral` dropped a field. We published
+that as the argument for a typed model.
+
+It was an artifact of how we asked. Every major chat API supports structured
+output and we had not switched it on. Same prompt, same fixtures, one extra
+field in the request body:
+
+```
+                        plain   json_schema
+  gemini-2.5-flash-lite   2/5          5/5
+  gpt-5-nano              4/5          5/5
+  mistral-small-3.2       5/5          5/5
+```
+
+`response_format: {"type": "json_schema", "strict": true}` removes every
+violation we found, on every fixture. So **type reliability is not a reason to
+choose Jev** — it is one line in your request body. Check both halves:
+
+```bash
+python3 -m bench.headtohead --repeats 5            # plain prompt
+python3 -m bench.headtohead --repeats 5 --schema   # the way you would actually do it
+python3 -m bench.headtohead --repeats 5 --frontier # adds GPT-5.6 Sol/Terra and Opus 5
+```
+
+Measuring a model without the feature built for the job tests your prompt, not
+the model. The wrong version is left in the history rather than deleted,
+because a benchmark that only ever confirms its author is not worth reading.
+
+## 5. The gateway is not free, and its tail is worse than its median
+
+Same state and questions, alternating between routes twelve times so both see
+the same network at the same minute:
+
+| Route | p50 | p90 | Reports cost |
+|---|---:|---:|---|
+| api.typesafe.ai | 313 ms | 423 ms | no |
+| OpenRouter `/api/alpha/decisions` | 734 ms | 1,739 ms | yes |
+
+A first attempt ran the routes in sequence rather than interleaved and put the
+gap at 497 ms; interleaving corrected it to 421 ms, and benchmark runs a few
+hours earlier had OpenRouter at 339–453 ms. **The gateway tax is not one
+number** — measure your own route at your own hour.
+
+Two undocumented differences, both worth knowing before you pick:
+
+- The model id differs. First-party answers as `jev-1.13.0`, OpenRouter as
+  `typesafe/jev-1.13-20260917`. `GET /v1/models` lists only `jev-latest` and
+  `jev-preview`, yet `jev-1.13.0` is accepted — while `jev-1.13` without the
+  patch number is rejected as an unknown model.
+- The first-party API reports `input_tokens` and `output_tokens` but **no
+  cost**. That field is OpenRouter's addition.
+
+## 6. Five questions in one request cost the same as one
+
+From `x-envoy-upstream-service-time`, the server's own clock, rather than by
+subtracting an estimated network floor:
+
+| Questions in one request | Server time |
+|---:|---:|
+| 1 | 70 ms |
+| 3 | 72 ms |
+| 4 | 81 ms |
+| 5 | 74 ms |
+
+"Questions are evaluated in parallel" is a vendor claim everywhere else. This
+is it read off the server's own header. Same practical advice the cost numbers
+give: ask everything you want to know in one call.
 
 ---
 

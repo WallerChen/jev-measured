@@ -1,0 +1,175 @@
+{
+  "case": "agent-output-guardrails",
+  "repeats": 5,
+  "measured_at": "2026-09-20T14:28:51+0800",
+  "results": {
+    "typesafe/jev-1.13": {
+      "runs": 5,
+      "parse_ok": 5,
+      "type_ok": 5,
+      "violations": [],
+      "latency_ms_median": 358.3,
+      "input_tokens": 474,
+      "output_tokens": 73,
+      "cost_usd_median": 1.9908e-05,
+      "answers": [
+        {
+          "answers": 0.75,
+          "no_pii": 0.01,
+          "on_brand": 0.89,
+          "no_promise": 0.05
+        },
+        {
+          "answers": 0.74,
+          "no_pii": 0.01,
+          "on_brand": 0.88,
+          "no_promise": 0.06
+        },
+        {
+          "answers": 0.76,
+          "no_pii": 0.01,
+          "on_brand": 0.89,
+          "no_promise": 0.05
+        },
+        {
+          "answers": 0.75,
+          "no_pii": 0.01,
+          "on_brand": 0.88,
+          "no_promise": 0.05
+        },
+        {
+          "answers": 0.75,
+          "no_pii": 0.01,
+          "on_brand": 0.88,
+          "no_promise": 0.06
+        }
+      ]
+    },
+    "openai/gpt-5-nano": {
+      "runs": 5,
+      "parse_ok": 5,
+      "type_ok": 5,
+      "violations": [],
+      "latency_ms_median": 8852.8,
+      "input_tokens": 286,
+      "output_tokens": 1749,
+      "cost_usd_median": 0.0005243,
+      "answers": [
+        {
+          "answers": 0.92,
+          "no_pii": 0.12,
+          "on_brand": 0.92,
+          "no_promise": 0.18
+        },
+        {
+          "answers": 0.0,
+          "no_pii": 0.02,
+          "on_brand": 0.92,
+          "no_promise": 0.08
+        },
+        {
+          "answers": 0.92,
+          "no_pii": 0.08,
+          "on_brand": 0.9,
+          "no_promise": 0.12
+        },
+        {
+          "answers": 0.2,
+          "no_pii": 0.0,
+          "on_brand": 0.9,
+          "no_promise": 0.0
+        },
+        {
+          "answers": 0.92,
+          "no_pii": 0.15,
+          "on_brand": 0.93,
+          "no_promise": 0.18
+        }
+      ]
+    },
+    "google/gemini-2.5-flash-lite": {
+      "runs": 5,
+      "parse_ok": 5,
+      "type_ok": 5,
+      "violations": [],
+      "latency_ms_median": 960.2,
+      "input_tokens": 244,
+      "output_tokens": 31,
+      "cost_usd_median": 3.68e-05,
+      "answers": [
+        {
+          "answers": 1,
+          "no_pii": 0,
+          "on_brand": 1,
+          "no_promise": 0
+        },
+        {
+          "answers": 1,
+          "no_pii": 0,
+          "on_brand": 1,
+          "no_promise": 0
+        },
+        {
+          "answers": 1,
+          "no_pii": 0,
+          "on_brand": 1,
+          "no_promise": 0
+        },
+        {
+          "answers": 1,
+          "no_pii": 0,
+          "on_brand": 1,
+          "no_promise": 0
+        },
+        {
+          "answers": 1,
+          "no_pii": 0,
+          "on_brand": 1,
+          "no_promise": 0
+        }
+      ]
+    },
+    "mistralai/mistral-small-3.2-24b-instruct": {
+      "runs": 5,
+      "parse_ok": 5,
+      "type_ok": 5,
+      "violations": [],
+      "latency_ms_median": 2106.9,
+      "input_tokens": 243,
+      "output_tokens": 45,
+      "cost_usd_median": 3.403125e-05,
+      "answers": [
+        {
+          "answers": 0.8,
+          "no_pii": 0.0,
+          "on_brand": 0.6,
+          "no_promise": 0.0
+        },
+        {
+          "answers": 1.0,
+          "no_pii": 0.0,
+          "on_brand": 0.8,
+          "no_promise": 0.0
+        },
+        {
+          "answers": 0.8,
+          "no_pii": 0.0,
+          "on_brand": 0.7,
+          "no_promise": 0.0
+        },
+        {
+          "answers": 0.2,
+          "no_pii": 0.0,
+          "on_brand": 0.8,
+          "no_promise": 0.0
+        },
+        {
+          "answers": 0.8,
+          "no_pii": 0.2,
+          "on_brand": 0.7,
+          "no_promise": 0.3
+        }
+      ]
+    }
+  }
+}

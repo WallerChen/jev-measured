@@ -40,6 +40,15 @@ LLM_MODELS = [
     "mistralai/mistral-small-3.2-24b-instruct",
 ]
 
+# The three models TypeSafe puts in its own comparison table, so running them
+# tests the vendor's claim directly rather than a lookalike. Priced 50-250x the
+# cheap tier on output, which is where a reasoning model spends.
+FRONTIER_MODELS = [
+    "openai/gpt-5.6-sol",
+    "openai/gpt-5.6-terra",
+    "anthropic/claude-opus-5",
+]
+
 
 def load_env() -> None:
     env = ROOT / ".env"
@@ -106,12 +115,36 @@ def llm_prompt(case: dict) -> str:
     return "\n".join(lines)
 
 
-def run_llm(model: str, case: dict, key: str) -> dict:
+def json_schema(case: dict) -> dict:
+    """The strictest shape the question set can be expressed as.
+
+    Exists so the comparison can be run the way a competent engineer would
+    actually run it. Every major chat API supports structured output now, and
+    measuring these models without it tests our prompt rather than the model.
+    """
+    props, req = {}, []
+    for qid, q in case["questions"].items():
+        if q["type"] == "choice":
+            props[qid] = {"type": "string", "enum": list(q["criteria"].keys())}
+        elif q["type"] == "score":
+            props[qid] = {"type": "integer", "minimum": 0, "maximum": len(q["criteria"]) - 1}
+        else:
+            props[qid] = {"type": "number", "minimum": 0, "maximum": 1}
+        req.append(qid)
+    return {"type": "object", "additionalProperties": False, "properties": props, "required": req}
+
+
+def run_llm(model: str, case: dict, key: str, strict: bool = False) -> dict:
     payload = {
         "model": model,
         "messages": [{"role": "user", "content": llm_prompt(case)}],
         "usage": {"include": True},
     }
+    if strict:
+        payload["response_format"] = {
+            "type": "json_schema",
+            "json_schema": {"name": "answers", "strict": True, "schema": json_schema(case)},
+        }
     data, ms = post(CHAT_URL, payload, key)
     usage = data.get("usage", {}) or {}
     text = (data.get("choices") or [{}])[0].get("message", {}).get("content", "") or ""
@@ -203,6 +236,10 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--case", default="support-ticket-triage", choices=sorted(CASES))
     ap.add_argument("--repeats", type=int, default=3)
+    ap.add_argument("--schema", action="store_true",
+                    help="Give the chat models response_format=json_schema, the way you actually would.")
+    ap.add_argument("--frontier", action="store_true",
+                    help="Also run the frontier models from TypeSafe's own table. Costs real money.")
     args = ap.parse_args()
 
     load_env()
@@ -223,11 +260,11 @@ def main() -> None:
         jev_runs.append(r)
     results[JEV_MODEL] = summarise(case, jev_runs)
 
-    for model in LLM_MODELS:
+    for model in LLM_MODELS + (FRONTIER_MODELS if args.frontier else []):
         runs = []
         for _ in range(args.repeats):
             try:
-                r = run_llm(model, case, key)
+                r = run_llm(model, case, key, strict=args.schema)
                 r["violations"] = type_violations(case, r["answers"])
                 runs.append(r)
             except Exception as e:  # a model can be rate limited or gone

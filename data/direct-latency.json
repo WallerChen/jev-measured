@@ -1,0 +1,70 @@
+{
+  "measured_at": "2026-09-20T05:47:26.552Z",
+  "transport": "first-party",
+  "cases": {
+    "support-ticket-triage": {
+      "median": 334,
+      "min": 273,
+      "serviceMs": 116,
+      "inTok": 539,
+      "outTok": 85,
+      "questions": 3
+    },
+    "llm-model-routing": {
+      "median": 270,
+      "min": 244,
+      "serviceMs": 77,
+      "inTok": 369,
+      "outTok": 50,
+      "questions": 1
+    },
+    "agent-tool-selection": {
+      "median": 260,
+      "min": 242,
+      "serviceMs": 70,
+      "inTok": 403,
+      "outTok": 61,
+      "questions": 1
+    },
+    "content-moderation": {
+      "median": 295,
+      "min": 249,
+      "serviceMs": 96,
+      "inTok": 420,
+      "outTok": 52,
+      "questions": 3
+    },
+    "phishing-detection": {
+      "median": 267,
+      "min": 247,
+      "serviceMs": 74,
+      "inTok": 533,
+      "outTok": 95,
+      "questions": 5
+    },
+    "rag-reranking": {
+      "median": 310,
+      "min": 277,
+      "serviceMs": 116,
+      "inTok": 364,
+      "outTok": 19,
+      "questions": 1
+    },
+    "agent-output-guardrails": {
+      "median": 273,
+      "min": 242,
+      "serviceMs": 81,
+      "inTok": 474,
+      "outTok": 73,
+      "questions": 4
+    },
+    "lead-scoring": {
+      "median": 267,
+      "min": 246,
+      "serviceMs": 72,
+      "inTok": 472,
+      "outTok": 48,
+      "questions": 3
+    }
+  }
+}

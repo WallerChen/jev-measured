@@ -1,0 +1,195 @@
+{
+  "case": "phishing-detection",
+  "repeats": 5,
+  "measured_at": "2026-09-20T14:27:52+0800",
+  "results": {
+    "typesafe/jev-1.13": {
+      "runs": 5,
+      "parse_ok": 5,
+      "type_ok": 5,
+      "violations": [],
+      "latency_ms_median": 347.3,
+      "input_tokens": 533,
+      "output_tokens": 95,
+      "cost_usd_median": 2.2386e-05,
+      "answers": [
+        {
+          "urgency": 0.97,
+          "credentials": 0.88,
+          "sender_odd": 0.86,
+          "link_mismatch": 0.37,
+          "unusual_ask": 0.02
+        },
+        {
+          "urgency": 0.97,
+          "credentials": 0.86,
+          "sender_odd": 0.83,
+          "link_mismatch": 0.39,
+          "unusual_ask": 0.02
+        },
+        {
+          "urgency": 0.97,
+          "credentials": 0.87,
+          "sender_odd": 0.83,
+          "link_mismatch": 0.36,
+          "unusual_ask": 0.02
+        },
+        {
+          "urgency": 0.97,
+          "credentials": 0.86,
+          "sender_odd": 0.82,
+          "link_mismatch": 0.38,
+          "unusual_ask": 0.03
+        },
+        {
+          "urgency": 0.97,
+          "credentials": 0.88,
+          "sender_odd": 0.84,
+          "link_mismatch": 0.36,
+          "unusual_ask": 0.02
+        }
+      ]
+    },
+    "openai/gpt-5-nano": {
+      "runs": 5,
+      "parse_ok": 5,
+      "type_ok": 5,
+      "violations": [],
+      "latency_ms_median": 9635.6,
+      "input_tokens": 354,
+      "output_tokens": 1509,
+      "cost_usd_median": 0.0004649,
+      "answers": [
+        {
+          "urgency": 0.95,
+          "credentials": 0.05,
+          "sender_odd": 0.85,
+          "link_mismatch": 0.25,
+          "unusual_ask": 0.0
+        },
+        {
+          "urgency": 0.95,
+          "credentials": 0.15,
+          "sender_odd": 0.85,
+          "link_mismatch": 0.1,
+          "unusual_ask": 0.0
+        },
+        {
+          "urgency": 0.92,
+          "credentials": 0.15,
+          "sender_odd": 0.82,
+          "link_mismatch": 0.9,
+          "unusual_ask": 0.0
+        },
+        {
+          "urgency": 0.9,
+          "credentials": 0.1,
+          "sender_odd": 0.7,
+          "link_mismatch": 0.0,
+          "unusual_ask": 0.0
+        },
+        {
+          "urgency": 0.92,
+          "credentials": 0.15,
+          "sender_odd": 0.92,
+          "link_mismatch": 0.9,
+          "unusual_ask": 0
+        }
+      ]
+    },
+    "google/gemini-2.5-flash-lite": {
+      "runs": 5,
+      "parse_ok": 5,
+      "type_ok": 5,
+      "violations": [],
+      "latency_ms_median": 1007.6,
+      "input_tokens": 302,
+      "output_tokens": 49,
+      "cost_usd_median": 4.98e-05,
+      "answers": [
+        {
+          "urgency": 1.0,
+          "credentials": 1.0,
+          "sender_odd": 1.0,
+          "link_mismatch": 1.0,
+          "unusual_ask": 0.0
+        },
+        {
+          "urgency": 1.0,
+          "credentials": 1.0,
+          "sender_odd": 1.0,
+          "link_mismatch": 1.0,
+          "unusual_ask": 0.0
+        },
+        {
+          "urgency": 1,
+          "credentials": 1,
+          "sender_odd": 1,
+          "link_mismatch": 1,
+          "unusual_ask": 0
+        },
+        {
+          "urgency": 1.0,
+          "credentials": 1.0,
+          "sender_odd": 1.0,
+          "link_mismatch": 1.0,
+          "unusual_ask": 0.0
+        },
+        {
+          "urgency": 1.0,
+          "credentials": 1.0,
+          "sender_odd": 1.0,
+          "link_mismatch": 1.0,
+          "unusual_ask": 0.0
+        }
+      ]
+    },
+    "mistralai/mistral-small-3.2-24b-instruct": {
+      "runs": 5,
+      "parse_ok": 5,
+      "type_ok": 5,
+      "violations": [],
+      "latency_ms_median": 2905.9,
+      "input_tokens": 305,
+      "output_tokens": 57,
+      "cost_usd_median": 4.284375e-05,
+      "answers": [
+        {
+          "urgency": 0.9,
+          "credentials": 0.8,
+          "sender_odd": 0.9,
+          "link_mismatch": 0.9,
+          "unusual_ask": 0.7
+        },
+        {
+          "urgency": 0.9,
+          "credentials": 0.8,
+          "sender_odd": 0.9,
+          "link_mismatch": 0.7,
+          "unusual_ask": 0.5
+        },
+        {
+          "urgency": 0.9,
+          "credentials": 0.8,
+          "sender_odd": 0.9,
+          "link_mismatch": 0.7,
+          "unusual_ask": 0.6
+        },
+        {
+          "urgency": 0.9,
+          "credentials": 0.8,
+          "sender_odd": 0.9,
+          "link_mismatch": 0.7,
+          "unusual_ask": 0.6
+        },
+        {
+          "urgency": 0.9,
+          "credentials": 0.8,
+          "sender_odd": 0.9,
+          "link_mismatch": 0.7,
+          "unusual_ask": 0.5
+        }
+      ]
+    }
+  }
+}
