@@ -1,0 +1,110 @@
+{
+  "measured_at": "2026-09-20T19:04:40+0800",
+  "unambiguous_n": 27,
+  "ambiguous_n": 6,
+  "repeats": 3,
+  "models": {
+    "typesafe/jev-1.13": {
+      "total": 27,
+      "repeats": 3,
+      "correct_per_pass": [
+        27,
+        27,
+        27
+      ],
+      "accuracy_mean": 1.0,
+      "accuracy_min": 1.0,
+      "accuracy_max": 1.0,
+      "mean_confidence_unambiguous": 0.977,
+      "mean_confidence_ambiguous": 0.848,
+      "errors": []
+    },
+    "google/gemini-2.5-flash-lite": {
+      "total": 27,
+      "repeats": 3,
+      "correct_per_pass": [
+        26,
+        25,
+        26
+      ],
+      "accuracy_mean": 0.951,
+      "accuracy_min": 0.926,
+      "accuracy_max": 0.963,
+      "mean_confidence_unambiguous": null,
+      "mean_confidence_ambiguous": null,
+      "errors": [
+        {
+          "text": "Dear Sir, I represent a client wishing to transfer $14,500,000 and req",
+          "expected": "spam",
+          "got": [
+            "sales"
+          ],
+          "passes": 3
+        },
+        {
+          "text": "Grow your Instagram to 50k followers guaranteed! DM for our SMM panel ",
+          "expected": "spam",
+          "got": [
+            "sales"
+          ],
+          "passes": 1
+        }
+      ]
+    },
+    "mistralai/mistral-small-3.2-24b-instruct": {
+      "total": 27,
+      "repeats": 3,
+      "correct_per_pass": [
+        27,
+        27,
+        27
+      ],
+      "accuracy_mean": 1.0,
+      "accuracy_min": 1.0,
+      "accuracy_max": 1.0,
+      "mean_confidence_unambiguous": null,
+      "mean_confidence_ambiguous": null,
+      "errors": []
+    },
+    "openai/gpt-5-nano": {
+      "total": 27,
+      "repeats": 3,
+      "correct_per_pass": [
+        24,
+        26,
+        26
+      ],
+      "accuracy_mean": 0.938,
+      "accuracy_min": 0.889,
+      "accuracy_max": 0.963,
+      "mean_confidence_unambiguous": null,
+      "mean_confidence_ambiguous": null,
+      "errors": [
+        {
+          "text": "Dear Sir, I represent a client wishing to transfer $14,500,000 and req",
+          "expected": "spam",
+          "got": [
+            "billing"
+          ],
+          "passes": 3
+        },
+        {
+          "text": "We want to move from the team plan to the organisation plan — same dat",
+          "expected": "account",
+          "got": [
+            "sales"
+          ],
+          "passes": 1
+        },
+        {
+          "text": "Hi! Just checking if you want backlinks. We have 2000 high DA sites re",
+          "expected": "spam",
+          "got": [
+            "sales"
+          ],
+          "passes": 1
+        }
+      ]
+    }
+  }
+}

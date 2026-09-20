@@ -4,7 +4,7 @@ Measured cost, latency and raw output from the live **Jev** API (TypeSafe AI's S
 
 Published because most numbers circulating about Jev are either the vendor's own or arithmetic from the rate card. These are what the API actually returned.
 
-- **Measured:** 2026-09-18
+- **Measured:** 2026-09-18 (cost/latency/shape), 2026-09-20 (accuracy)
 - **Model:** `typesafe/jev-1.13` via OpenRouter
 - **Raw data:** [`data/measured.json`](data/measured.json)
 - **Cost of the whole run:** under one cent
@@ -171,6 +171,66 @@ subtracting an estimated network floor:
 is it read off the server's own header. Same practical advice the cost numbers
 give: ask everything you want to know in one call.
 
+## 7. Accuracy: Jev does not win, it ties
+
+Everything above is cost, latency and output shape. None of it says whether an
+answer is *right*. `bench/labelled.py` adds 27 support tickets with a correct
+label, plus 6 deliberately ambiguous ones carrying no label at all. Every model
+runs the whole set three times.
+
+| Model | Correct | Per pass | Confidence, clear | Confidence, ambiguous |
+|---|---:|---:|---:|---:|
+| typesafe/jev-1.13 | 27/27 | 27 · 27 · 27 | 0.979 | 0.841 |
+| mistral-small-3.2-24b | 27/27 | 27 · 27 · 27 | — | — |
+| gemini-2.5-flash-lite | 26/27 | 26 · 26 · 26 | — | — |
+| gpt-5-nano | 26/27 | 26 · 26 · 26 | — | — |
+
+**"Jev is more accurate" is not supported by this.** It ties `mistral-small`, a
+general chat model that costs 1.4x as much and answers four times slower — but
+answers just as correctly, on every pass. Both misses across every model were
+the *same* ticket: a 419 advance-fee scam, filed as `sales` by Gemini and
+`billing` by GPT-5 nano rather than `spam`, on all three passes. That is a
+reproducible disagreement about one ticket, not a general accuracy gap.
+
+The confidence columns are the part only Jev can produce. Certainty falls from
+0.979 on the clear set to 0.841 on the ambiguous one — calibrated in the right
+direction, though by a smaller margin than you might want if you intend to
+route on a threshold. The chat models return no confidence field at all.
+
+### 7b. We nearly published a second artifact
+
+The first version of this ran one pass and put gemini at 26/27; re-running it
+gave 25/27 on the same tickets. Widening to three passes at **default
+sampling** produced this, which looked like a finding:
+
+| Model | Per pass, default sampling | With `temperature: 0` |
+|---|---:|---:|
+| gemini-2.5-flash-lite | 26 · 25 · 26 | 26 · 26 · 26 |
+| gpt-5-nano | 24 · 26 · 26 | 26 · 26 · 26 |
+| mistral-small-3.2 | 27 · 27 · 27 | 27 · 27 · 27 |
+| typesafe/jev-1.13 | 27 · 27 · 27 | 27 · 27 · 27 |
+
+An answer that changes between identical calls is a serious problem for
+anything you route on, and "chat models are inconsistent, Jev is not" was a
+finished paragraph before we checked it. `temperature: 0` removes it entirely.
+
+That is the **second** time in this repo that the same mistake produced a
+flattering result — see finding 4 for the first. Both times the fix was a field
+in the request body. Both runs are kept: `data/accuracy.json` is the published
+one, `data/accuracy-sampling-default.json` is the comparison.
+
+```bash
+python3 -m bench.accuracy                     # 3 passes, temperature 0
+python3 -m bench.accuracy --sampling-default  # send no temperature at all
+python3 -m bench.accuracy --only jev --repeats 5
+```
+
+**Limits.** Twenty-seven tickets written by us, on one task, in English, three
+passes each. Enough to retire the claim that Jev is more accurate; not enough
+to establish that anything else is. For a real accuracy study on independent
+data, see [anisselbd/jev-phishing-bench](https://github.com/anisselbd/jev-phishing-bench)
+(2,000 labelled emails).
+
 ---
 
 ## Reproduce it
@@ -222,7 +282,7 @@ Eight use cases in [`bench/fixtures.py`](bench/fixtures.py), each a plain dict: 
 
 ## What this is not
 
-Not an accuracy benchmark. There are no ground-truth labels here, so nothing in this repo says whether Jev is *right* — only what it costs, how long it takes, and what shape comes back. For accuracy, see [anisselbd/jev-phishing-bench](https://github.com/anisselbd/jev-phishing-bench) (2,000 labelled emails, Jev vs Claude Haiku 4.5).
+Not a broad accuracy benchmark. The eight main fixtures have no ground-truth labels at all — they measure cost, latency and response shape only. `bench/accuracy.py` adds 27 labelled tickets on one task, three passes each, which is enough to show Jev ties rather than wins, and not enough to rank anything. For accuracy at scale see [anisselbd/jev-phishing-bench](https://github.com/anisselbd/jev-phishing-bench) (2,000 labelled emails, Jev vs Claude Haiku 4.5).
 
 Not affiliated with TypeSafe AI. Where this disagrees with [docs.typesafe.ai](https://docs.typesafe.ai), the official docs are correct — please open an issue so it can be fixed here.
 
