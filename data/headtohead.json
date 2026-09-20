@@ -1,0 +1,159 @@
+{
+  "case": "support-ticket-triage",
+  "repeats": 5,
+  "measured_at": "2026-09-20T12:03:37+0800",
+  "results": {
+    "typesafe/jev-1.13": {
+      "runs": 5,
+      "parse_ok": 5,
+      "type_ok": 5,
+      "violations": [],
+      "latency_ms_median": 430.4,
+      "input_tokens": 539,
+      "output_tokens": 85,
+      "cost_usd_median": 2.2638e-05,
+      "answers": [
+        {
+          "queue": "billing",
+          "severity": 2.65,
+          "churn_risk": 0.99
+        },
+        {
+          "queue": "billing",
+          "severity": 2.63,
+          "churn_risk": 0.99
+        },
+        {
+          "queue": "billing",
+          "severity": 2.64,
+          "churn_risk": 0.99
+        },
+        {
+          "queue": "billing",
+          "severity": 2.68,
+          "churn_risk": 0.99
+        },
+        {
+          "queue": "billing",
+          "severity": 2.66,
+          "churn_risk": 0.99
+        }
+      ]
+    },
+    "openai/gpt-5-nano": {
+      "runs": 5,
+      "parse_ok": 5,
+      "type_ok": 4,
+      "violations": [
+        "churn_risk: True is a boolean, not a probability"
+      ],
+      "latency_ms_median": 8332.1,
+      "input_tokens": 268,
+      "output_tokens": 864,
+      "cost_usd_median": 0.0003154,
+      "answers": [
+        {
+          "queue": "billing",
+          "severity": 3,
+          "churn_risk": 1.0
+        },
+        {
+          "queue": "billing",
+          "severity": 3,
+          "churn_risk": 1.0
+        },
+        {
+          "queue": "billing",
+          "severity": 3,
+          "churn_risk": true
+        },
+        {
+          "queue": "billing",
+          "severity": 3,
+          "churn_risk": 0.92
+        },
+        {
+          "queue": "billing",
+          "severity": 3,
+          "churn_risk": 0.92
+        }
+      ]
+    },
+    "google/gemini-2.5-flash-lite": {
+      "runs": 5,
+      "parse_ok": 5,
+      "type_ok": 2,
+      "violations": [
+        "churn_risk: True is a boolean, not a probability"
+      ],
+      "latency_ms_median": 911.2,
+      "input_tokens": 274,
+      "output_tokens": 35,
+      "cost_usd_median": 4.02e-05,
+      "answers": [
+        {
+          "queue": "billing",
+          "severity": 2,
+          "churn_risk": 1.0
+        },
+        {
+          "queue": "billing",
+          "severity": 2,
+          "churn_risk": 1.0
+        },
+        {
+          "queue": "billing",
+          "severity": 2,
+          "churn_risk": true
+        },
+        {
+          "queue": "billing",
+          "severity": 2,
+          "churn_risk": true
+        },
+        {
+          "queue": "billing",
+          "severity": 2,
+          "churn_risk": true
+        }
+      ]
+    },
+    "mistralai/mistral-small-3.2-24b-instruct": {
+      "runs": 5,
+      "parse_ok": 5,
+      "type_ok": 5,
+      "violations": [],
+      "latency_ms_median": 1889.7,
+      "input_tokens": 291,
+      "output_tokens": 35,
+      "cost_usd_median": 3.478125e-05,
+      "answers": [
+        {
+          "queue": "billing",
+          "severity": 2,
+          "churn_risk": 0.8
+        },
+        {
+          "queue": "billing",
+          "severity": 3,
+          "churn_risk": 1
+        },
+        {
+          "queue": "billing",
+          "severity": 2,
+          "churn_risk": 0.9
+        },
+        {
+          "queue": "billing",
+          "severity": 2,
+          "churn_risk": 1
+        },
+        {
+          "queue": "billing",
+          "severity": 2,
+          "churn_risk": 0.9
+        }
+      ]
+    }
+  }
+}
