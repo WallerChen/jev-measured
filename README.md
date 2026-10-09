@@ -5,9 +5,23 @@ Measured cost, latency and raw output from the live **Jev** API (TypeSafe AI's S
 Published because most numbers circulating about Jev are either the vendor's own or arithmetic from the rate card. These are what the API actually returned.
 
 - **Measured:** 2026-09-18 (cost/latency/shape), 2026-09-20 (accuracy)
-- **Model:** `typesafe/jev-1.13` via OpenRouter
+- **Model:** `typesafe/jev-1.13` via OpenRouter; §8 adds twelve other decision models (2026-10-08)
 - **Raw data:** [`data/measured.json`](data/measured.json)
 - **Cost of the whole run:** under one cent
+
+## Quick answers
+
+Each answer links to the section with the data behind it.
+
+| Question | Answer (measured) |
+|---|---|
+| How much does one Jev decision cost? | **$0.000015–0.000023** across eight real use cases (364–539 input tokens at $0.042 per 1M; output is not billed). [§1](#1-a-real-decision-costs-20-less-than-the-figure-in-circulation) |
+| How fast is Jev? | 458–563 ms raw from a laptop, of which ~199 ms is the network floor; **184 ms median** from a US-East server through OpenRouter. [§2](#2-quote-latency-twice-or-dont-quote-it), [§8](#8-thirteen-decision-models-on-the-same-633-items-2026-10-08) |
+| Is Jev more accurate than chat models? | **It ties, it does not win:** 27/27 labelled tickets, the same as mistral-small-3.2 (1.4× the price, 4× slower); gemini-2.5-flash-lite and gpt-5-nano scored 26/27. Only Jev also returned a confidence (0.979 clear, 0.841 ambiguous). [§7](#7-accuracy-jev-does-not-win-it-ties) |
+| Which decision model is most accurate? | On 633 items: **d1 96.5%** and **Decider V1.1 96.0%** on simple choices; **Clef Flash 92.0%** and **Clef 89.0%** with 59–77 options; Jev 94.0% / 79.0%; GPT-6 Luna Decisions 94.1% / 79.8%. [§8](#8-thirteen-decision-models-on-the-same-633-items-2026-10-08) |
+| What does `Score` return? | The probability-weighted mean of the rubric **indices** (0..n−1), not 0–1. `Noul` has **no** `confidence` field. [§3](#3-score-is-not-01-and-noul-has-no-confidence-field) |
+| Why does `typesafe/jev` fail on OpenRouter chat completions? | Jev is a decisions model: use `POST /api/alpha/decisions`, not `/chat/completions`. [Gateway gotcha](#️-gateway-gotcha) |
+| Does asking more questions cost more? | No: five questions in one request cost the same as one, because the state is the bill. [§6](#6-five-questions-in-one-request-cost-the-same-as-one) |
 
 ---
 
@@ -232,6 +246,40 @@ data, see [anisselbd/jev-phishing-bench](https://github.com/anisselbd/jev-phishi
 (2,000 labelled emails).
 
 ---
+
+## 8. Thirteen decision models on the same 633 items (2026-10-08)
+
+OpenAI put its Decisions API (GPT-6 Luna Decisions) into public beta on 2026-10-06, and by 2026-10-08 OpenRouter's Decisions API served thirteen decision models from ten makers. All thirteen, one question per request, on the same items:
+
+- **Simple choices:** AG News (4 labels) and two yes/no sets (WikiToxic, Amazon polarity), 100 items each, plus 27 labelled support tickets.
+- **Many options:** MASSIVE intents (59 labels) and Banking77 (77 labels), 100 items each.
+- Items are a fixed-seed sample (20261008) of the [BTZSC](https://huggingface.co/datasets/btzsc/btzsc) test splits; the tickets come from `bench/labelled.py`.
+
+| Model | Maker | Simple choices | 59–77 options | Yes/no | Wrong at ≥90% conf. | p50 latency | $ per 1k decisions |
+|---|---|---:|---:|---:|---:|---:|---:|
+| d1 (`liquid/d1`) | Liquid AI | 96.5% | 86.0% | 96.5% | 3.2% | 322 ms | $0.0078 |
+| Decider V1.1 27B (`perplexity/pplx-decider-v1.1-27b`) | Perplexity | 96.0% | 85.0% | 95.5% | 4.6% | 269 ms | $0.0072 |
+| Mercury Decide (`inception/mercury-decide:free`) | Inception | 95.6% | 85.0% | 94.0% | 5.4% | untimed | free tier |
+| Clef (`cloudflare/clef`) | Cloudflare | 95.0% | 89.0% | 97.0% | 2.3% | 313 ms | $0.1541 |
+| Kev 4B (`jaredpalmer/kev-4b`) | Jared Palmer | 95.0% | 78.5% | 91.0% | 2.6% | 359 ms | $0.0115 |
+| Solar Decide (`upstage/solar-decide`) | Upstage | 94.6% | refused | 93.0% | 13.7% | 559 ms | $0.0216 |
+| GPT-6 Luna Decisions (`openai/gpt-6-luna-decisions`) | OpenAI | 94.1% | 79.8% | 93.5% | 9.2% | 138 ms | $0.0401 |
+| Solar Decide Flash (`upstage/solar-decide-flash`) | Upstage | 94.1% | refused | 91.5% | 9.5% | 597 ms | $0.0216 |
+| Jev 1.13 (`typesafe/jev-1.13`) | TypeSafe | 94.0% | 79.0% | 95.0% | 11.5% | 184 ms | $0.0304 |
+| Clef Flash (`cloudflare/clef-flash`) | Cloudflare | 92.6% | 92.0% | 97.0% | 4.2% | 369 ms | $0.0578 |
+| Tev1 4B Experimental (`togethercomputer/tev1-4b-experimental`) | Together AI | 90.4% | refused | 93.5% | 5.1% | 136 ms | $0.0072 |
+| Span-01 (`respan/span-01`) | Respan | yes/no only | — | 93.5% | — | 128 ms | $0.0029 |
+| Span-01 Lite (`respan/span-01-lite:free`) | Respan | yes/no only | — | 93.5% | — | untimed | free tier |
+
+What the table says:
+
+- **On a simple gate the models barely differ** (90–96.5%); pick on latency and price there.
+- **With dozens of options they do.** Solar Decide takes at most 26 options and Tev1 at most 20, so they refused the 59- and 77-option sets outright; Jev and GPT-6 Luna Decisions fell to ~79–80%, while the two Clef models held 89–92%.
+- **Read the confident-and-wrong column before the accuracy column** if a threshold triggers an action: Jev was wrong on 11.5% of the answers it gave ≥90% confidence, d1 on 3.2%, Clef on 2.3%.
+- **Images reach the image models only as chat-style `image_url` parts.** OpenAI-style `input_image` parts are read as text, without an error.
+- Latency: 20 sequential calls after one warm-up, from a server in Washington, D.C. (Vercel `iad1`), all through OpenRouter's Decisions API. Free-tier models were rate-limited too hard to time.
+
+Raw answers: [`data/decision-models/run.jsonl`](data/decision-models/run.jsonl) (7,363 rows: model, item, gold label, answer, confidence, tokens, cost — no item text). Summary: [`data/decision-models/summary.json`](data/decision-models/summary.json). Scripts: [`bench/decision-models/`](bench/decision-models/). Per-model profiles and the same tables with charts: [jev-agent.com/decisions-api](https://jev-agent.com/decisions-api) and [jev-agent.com/decision-models](https://jev-agent.com/decision-models).
 
 ## Reproduce it
 

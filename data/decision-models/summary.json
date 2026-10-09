@@ -1,0 +1,394 @@
+{
+ "measuredAt": "2026-10-08",
+ "gateway": "OpenRouter /api/alpha/decisions",
+ "latencyFrom": "Vercel iad1 (Washington, D.C.), 20 sequential calls after one warm-up, one 5-option choice question",
+ "jevDirectLatency": null,
+ "items": {
+  "agnews": {
+   "n": 100,
+   "labels": 4,
+   "type": "choice"
+  },
+  "emotiondair": {
+   "n": 100,
+   "labels": 6,
+   "type": "choice"
+  },
+  "massive": {
+   "n": 100,
+   "labels": 59,
+   "type": "choice"
+  },
+  "banking77": {
+   "n": 100,
+   "labels": 77,
+   "type": "choice"
+  },
+  "wikitoxic_toxicaggregated": {
+   "n": 100,
+   "labels": 2,
+   "type": "noul"
+  },
+  "amazonpolarity": {
+   "n": 100,
+   "labels": 2,
+   "type": "noul"
+  },
+  "tickets": {
+   "n": 27,
+   "labels": 5,
+   "type": "choice"
+  },
+  "tickets-ambiguous": {
+   "n": 6,
+   "labels": 5,
+   "type": "choice"
+  }
+ },
+ "models": [
+  {
+   "id": "liquid/d1",
+   "sets": {
+    "agnews": 0.93,
+    "emotiondair": 0.64,
+    "massive": 0.86,
+    "banking77": 0.86,
+    "tickets": 1,
+    "wikitoxic_toxicaggregated": 0.93,
+    "amazonpolarity": 1
+   },
+   "unsupported": [],
+   "common": 0.9650000000000001,
+   "emotion": 0.64,
+   "manyOptions": 0.86,
+   "yesNo": 0.9650000000000001,
+   "choiceECE": 0.04990156168139888,
+   "noulBrier": 0.028809455523669585,
+   "highConfWrong": 0.03187250996015936,
+   "highConfShare": 0.5878220140515222,
+   "ticketConfClear": 0.9519990461351739,
+   "ticketConfAmbiguous": 0.5156909969770794,
+   "medianInputTokens": 104,
+   "usdPer1kDecisions": 0.0077603159557661896,
+   "latencyP50": 322,
+   "latencyP90": 496
+  },
+  {
+   "id": "cloudflare/clef-flash",
+   "sets": {
+    "agnews": 0.89,
+    "emotiondair": 0.56,
+    "massive": 0.91,
+    "banking77": 0.93,
+    "tickets": 0.963,
+    "wikitoxic_toxicaggregated": 0.96,
+    "amazonpolarity": 0.98
+   },
+   "unsupported": [],
+   "common": 0.9264814814814815,
+   "emotion": 0.56,
+   "manyOptions": 0.92,
+   "yesNo": 0.97,
+   "choiceECE": 0.05855995316159249,
+   "noulBrier": 0.02386622675,
+   "highConfWrong": 0.04225352112676056,
+   "highConfShare": 0.3325526932084309,
+   "ticketConfClear": 0.803337037037037,
+   "ticketConfAmbiguous": 0.6761166666666667,
+   "medianInputTokens": 222,
+   "usdPer1kDecisions": 0.057777867298578256,
+   "latencyP50": 369,
+   "latencyP90": 558
+  },
+  {
+   "id": "jev-latest",
+   "sets": {
+    "agnews": 0.88,
+    "emotiondair": 0.63,
+    "massive": 0.76,
+    "banking77": 0.82,
+    "tickets": 1,
+    "wikitoxic_toxicaggregated": 0.92,
+    "amazonpolarity": 0.98
+   },
+   "unsupported": [],
+   "common": 0.94,
+   "emotion": 0.63,
+   "manyOptions": 0.79,
+   "yesNo": 0.95,
+   "choiceECE": 0.10859484777517615,
+   "noulBrier": 0.03790199999999995,
+   "highConfWrong": 0.11501597444089456,
+   "highConfShare": 0.7330210772833724,
+   "ticketConfClear": 0.9796296296296296,
+   "ticketConfAmbiguous": 0.8216666666666667,
+   "medianInputTokens": 393,
+   "usdPer1kDecisions": 0.030413241706161182,
+   "latencyP50": 184,
+   "latencyP90": 287
+  },
+  {
+   "id": "gpt-6-luna",
+   "sets": {
+    "agnews": 0.92,
+    "emotiondair": 0.62,
+    "massive": 0.786,
+    "banking77": 0.81,
+    "tickets": 0.963,
+    "wikitoxic_toxicaggregated": 0.9,
+    "amazonpolarity": 0.97
+   },
+   "unsupported": [],
+   "common": 0.9414814814814815,
+   "emotion": 0.62,
+   "manyOptions": 0.7978571428571428,
+   "yesNo": 0.935,
+   "choiceECE": 0.0882117647058831,
+   "noulBrier": 0.05024799999999998,
+   "highConfWrong": 0.09154929577464789,
+   "highConfShare": 0.668235294117647,
+   "ticketConfClear": 0.9214814814814815,
+   "ticketConfAmbiguous": 0.79,
+   "medianInputTokens": 218,
+   "usdPer1kDecisions": 0.040122028526148996,
+   "latencyP50": 138,
+   "latencyP90": 187
+  },
+  {
+   "id": "upstage/solar-decide-flash",
+   "sets": {
+    "agnews": 0.92,
+    "emotiondair": 0.59,
+    "tickets": 0.963,
+    "wikitoxic_toxicaggregated": 0.85,
+    "amazonpolarity": 0.98
+   },
+   "unsupported": [
+    "massive",
+    "banking77"
+   ],
+   "common": 0.9414814814814815,
+   "emotion": 0.59,
+   "manyOptions": null,
+   "yesNo": 0.915,
+   "choiceECE": 0.11556948458149749,
+   "noulBrier": 0.06778858464871505,
+   "highConfWrong": 0.0948905109489051,
+   "highConfShare": 0.6035242290748899,
+   "ticketConfClear": 0.807228148148148,
+   "ticketConfAmbiguous": 0.7135503333333332,
+   "medianInputTokens": 412,
+   "usdPer1kDecisions": 0.021616281755196295,
+   "latencyP50": 597,
+   "latencyP90": 982
+  },
+  {
+   "id": "perplexity/pplx-decider-v1.1-27b",
+   "sets": {
+    "agnews": 0.92,
+    "emotiondair": 0.6,
+    "massive": 0.9,
+    "banking77": 0.8,
+    "tickets": 1,
+    "wikitoxic_toxicaggregated": 0.93,
+    "amazonpolarity": 0.98
+   },
+   "unsupported": [],
+   "common": 0.96,
+   "emotion": 0.6,
+   "manyOptions": 0.8500000000000001,
+   "yesNo": 0.9550000000000001,
+   "choiceECE": 0.06891865302251543,
+   "noulBrier": 0.028891518290721743,
+   "highConfWrong": 0.04580152671755725,
+   "highConfShare": 0.6135831381733021,
+   "ticketConfClear": 0.9925128947942404,
+   "ticketConfAmbiguous": 0.805315689957313,
+   "medianInputTokens": 158,
+   "usdPer1kDecisions": 0.007162022116903632,
+   "latencyP50": 269,
+   "latencyP90": 390
+  },
+  {
+   "id": "upstage/solar-decide",
+   "sets": {
+    "agnews": 0.93,
+    "emotiondair": 0.59,
+    "tickets": 0.963,
+    "wikitoxic_toxicaggregated": 0.89,
+    "amazonpolarity": 0.97
+   },
+   "unsupported": [
+    "massive",
+    "banking77"
+   ],
+   "common": 0.9464814814814815,
+   "emotion": 0.59,
+   "manyOptions": null,
+   "yesNo": 0.9299999999999999,
+   "choiceECE": 0.12896500440528652,
+   "noulBrier": 0.05940075613520998,
+   "highConfWrong": 0.13664596273291926,
+   "highConfShare": 0.7092511013215859,
+   "ticketConfClear": 0.8879134074074074,
+   "ticketConfAmbiguous": 0.9606091666666666,
+   "medianInputTokens": 412,
+   "usdPer1kDecisions": 0.0216162817551963,
+   "latencyP50": 559,
+   "latencyP90": 1048
+  },
+  {
+   "id": "togethercomputer/tev1-4b-experimental",
+   "sets": {
+    "agnews": 0.92,
+    "emotiondair": 0.59,
+    "tickets": 0.889,
+    "wikitoxic_toxicaggregated": 0.89,
+    "amazonpolarity": 0.98
+   },
+   "unsupported": [
+    "massive",
+    "banking77"
+   ],
+   "common": 0.9044444444444444,
+   "emotion": 0.59,
+   "manyOptions": null,
+   "yesNo": 0.935,
+   "choiceECE": 0.06160393062660293,
+   "noulBrier": 0.048861012327102625,
+   "highConfWrong": 0.05084745762711865,
+   "highConfShare": 0.5198237885462555,
+   "ticketConfClear": 0.8904633433853338,
+   "ticketConfAmbiguous": 0.8605084147620766,
+   "medianInputTokens": 164,
+   "usdPer1kDecisions": 0.007172106235565828,
+   "latencyP50": 136,
+   "latencyP90": 186
+  },
+  {
+   "id": "cloudflare/clef",
+   "sets": {
+    "agnews": 0.9,
+    "emotiondair": 0.61,
+    "massive": 0.88,
+    "banking77": 0.9,
+    "tickets": 1,
+    "wikitoxic_toxicaggregated": 0.96,
+    "amazonpolarity": 0.98
+   },
+   "unsupported": [],
+   "common": 0.95,
+   "emotion": 0.61,
+   "manyOptions": 0.89,
+   "yesNo": 0.97,
+   "choiceECE": 0.056870491803278585,
+   "noulBrier": 0.024937764499999987,
+   "highConfWrong": 0.022935779816513763,
+   "highConfShare": 0.5105386416861827,
+   "ticketConfClear": 0.8354185185185187,
+   "ticketConfAmbiguous": 0.5907999999999999,
+   "medianInputTokens": 222,
+   "usdPer1kDecisions": 0.15407431279620876,
+   "latencyP50": 313,
+   "latencyP90": 695
+  },
+  {
+   "id": "respan/span-01-lite:free",
+   "sets": {
+    "wikitoxic_toxicaggregated": 0.9,
+    "amazonpolarity": 0.97
+   },
+   "unsupported": [],
+   "common": null,
+   "emotion": null,
+   "manyOptions": null,
+   "yesNo": 0.935,
+   "choiceECE": null,
+   "noulBrier": 0.04421906313442188,
+   "highConfWrong": null,
+   "highConfShare": null,
+   "ticketConfClear": null,
+   "ticketConfAmbiguous": null,
+   "medianInputTokens": 118,
+   "usdPer1kDecisions": 0,
+   "latencyP50": null,
+   "latencyP90": null
+  },
+  {
+   "id": "respan/span-01",
+   "sets": {
+    "wikitoxic_toxicaggregated": 0.9,
+    "amazonpolarity": 0.97
+   },
+   "unsupported": [],
+   "common": null,
+   "emotion": null,
+   "manyOptions": null,
+   "yesNo": 0.935,
+   "choiceECE": null,
+   "noulBrier": 0.04418575562451948,
+   "highConfWrong": null,
+   "highConfShare": null,
+   "ticketConfClear": null,
+   "ticketConfAmbiguous": null,
+   "medianInputTokens": 118,
+   "usdPer1kDecisions": 0.0029127000000000016,
+   "latencyP50": 128,
+   "latencyP90": 159
+  },
+  {
+   "id": "jaredpalmer/kev-4b",
+   "sets": {
+    "agnews": 0.9,
+    "emotiondair": 0.57,
+    "massive": 0.69,
+    "banking77": 0.88,
+    "tickets": 1,
+    "wikitoxic_toxicaggregated": 0.87,
+    "amazonpolarity": 0.95
+   },
+   "unsupported": [],
+   "common": 0.95,
+   "emotion": 0.57,
+   "manyOptions": 0.7849999999999999,
+   "yesNo": 0.9099999999999999,
+   "choiceECE": 0.12292833723653386,
+   "noulBrier": 0.06812713560000003,
+   "highConfWrong": 0.02631578947368421,
+   "highConfShare": 0.26697892271662765,
+   "ticketConfClear": 0.6646851851851852,
+   "ticketConfAmbiguous": 0.38653333333333334,
+   "medianInputTokens": 92,
+   "usdPer1kDecisions": 0.011479867298578191,
+   "latencyP50": 359,
+   "latencyP90": 789
+  },
+  {
+   "id": "inception/mercury-decide:free",
+   "sets": {
+    "agnews": 0.95,
+    "emotiondair": 0.92,
+    "massive": 0.85,
+    "banking77": 0.85,
+    "tickets": 0.963,
+    "wikitoxic_toxicaggregated": 0.89,
+    "amazonpolarity": 0.99
+   },
+   "unsupported": [],
+   "common": 0.9564814814814815,
+   "emotion": 0.92,
+   "manyOptions": 0.85,
+   "yesNo": 0.94,
+   "choiceECE": 0.06546579022058036,
+   "noulBrier": 0.04032770931840898,
+   "highConfWrong": 0.05405405405405406,
+   "highConfShare": 0.8665105386416861,
+   "ticketConfClear": 0.9942099951260696,
+   "ticketConfAmbiguous": 0.6472907564001517,
+   "medianInputTokens": 154,
+   "usdPer1kDecisions": 0,
+   "latencyP50": null,
+   "latencyP90": null
+  }
+ ]
+}
