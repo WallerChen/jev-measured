@@ -251,8 +251,10 @@ data, see [anisselbd/jev-phishing-bench](https://github.com/anisselbd/jev-phishi
 
 OpenAI put its Decisions API (GPT-6 Luna Decisions) into public beta on 2026-10-06, and by 2026-10-08 OpenRouter's Decisions API served thirteen decision models from ten makers. All thirteen, one question per request, on the same items:
 
-- **Simple choices:** AG News (4 labels) and two yes/no sets (WikiToxic, Amazon polarity), 100 items each, plus 27 labelled support tickets.
+- **Simple choices** (column average): AG News (4 labels, 100 items) and 27 labelled support tickets (5 queues).
 - **Many options:** MASSIVE intents (59 labels) and Banking77 (77 labels), 100 items each.
+- **Yes/no:** WikiToxic and Amazon polarity, 100 items each, asked as a statement.
+- Also in the raw data: an emotion set (6 labels) and 6 deliberately ambiguous tickets with no gold label.
 - Items are a fixed-seed sample (20261008) of the [BTZSC](https://huggingface.co/datasets/btzsc/btzsc) test splits; the tickets come from `bench/labelled.py`.
 
 | Model | Maker | Simple choices | 59–77 options | Yes/no | Wrong at ≥90% conf. | p50 latency | $ per 1k decisions |
