@@ -1,0 +1,8 @@
+{
+ "wikitoxic_toxicaggregated | statement+criteria (harness)": 0.91,
+ "wikitoxic_toxicaggregated | statement, no criteria": 0.88,
+ "wikitoxic_toxicaggregated | question, no criteria": 0.88,
+ "amazonpolarity | statement+criteria (harness)": 0.67,
+ "amazonpolarity | statement, no criteria": 0.71,
+ "amazonpolarity | question, no criteria": 0.56
+}

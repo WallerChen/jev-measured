@@ -283,6 +283,30 @@ What the table says:
 
 Raw answers: [`data/decision-models/run.jsonl`](data/decision-models/run.jsonl) (7,363 rows: model, item, gold label, answer, confidence, tokens, cost — no item text). Summary: [`data/decision-models/summary.json`](data/decision-models/summary.json). Scripts: [`bench/decision-models/`](bench/decision-models/). Per-model profiles and the same tables with charts: [jev-agent.com/decisions-api](https://jev-agent.com/decisions-api) and [jev-agent.com/decision-models](https://jev-agent.com/decision-models).
 
+## 9. Laya, the open-weight model, on the same items (2026-10-09)
+
+[Laya](https://github.com/NandhaKishorM/laya) (Convai Innovations, Apache 2.0, first published 2026-09-18) is the most-starred open decision model and speaks the same `/v1/systemone` request shape. Its own benchmark compares against Jev's *published* figures, since its authors had no TypeSafe access, so we ran it on the §8 items. Laya 0.4.1, English checkpoint (`convaiinnovations/laya`, ModernBERT-large, 421M), zero-shot, the same questions, one per call, on an Apple M2 (PyTorch MPS). The rebuilt item sample matched all 627 gold labels of the §8 run.
+
+| | Laya | Jev 1.13 |
+|---|---:|---:|
+| AG News (4 labels) | **91.0%** | 88.0% |
+| Emotion (6) | 60.0% | **63.0%** |
+| Support tickets (5 queues) | 74.1% | **100%** |
+| MASSIVE (59) | 45.0% | **76.0%** |
+| Banking77 (77) | 44.0% | **82.0%** |
+| WikiToxic, yes/no | 91.0% | **92.0%** |
+| Amazon polarity, yes/no | 67.0% | **98.0%** |
+| Wrong at ≥90% confidence (choice) | 26.8% | **11.5%** |
+| Ticket confidence, clear / ambiguous | 0.53 / 0.45 | 0.98 / 0.82 |
+| Median latency | 163 ms on an M2 laptop | 184 ms via OpenRouter from iad1 |
+
+- Laya's own numbers agree with ours: it reports 0.950 on AG News and 0.425 on Banking77. Its README explains the many-option drop (all options share a 192-token budget) and advises keeping choices under ~20.
+- **Confidence is converted.** Laya's `confidence` is 1 − normalised entropy; Jev's is `(n·p_max − 1)/(n − 1)`. `data/laya/run.jsonl` keeps Laya's raw `entropy_confidence` and `pmax`, and `confidence` is recomputed on Jev's definition so the two columns compare like with like.
+- **The yes/no wording was not the problem.** Reviews scored 67% as asked, 71% without the true/false criteria and 56% as a question in Laya's style; toxicity 91%, 88%, 88% (`data/laya/variants.json`).
+- Batched on the M2: 13.0, 16.5 and 17.9 decisions/s at batch sizes 1, 16 and 32 (AG News).
+
+Scripts: [`bench/laya/`](bench/laya/) (`run_laya.py` reads the same `btzsc-sample.json` and `tickets.json` as `bench/decision-models/`). Write-up: [jev-agent.com/jev-vs-laya](https://jev-agent.com/jev-vs-laya).
+
 ## Reproduce it
 
 ```bash

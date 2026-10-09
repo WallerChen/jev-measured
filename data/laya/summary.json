@@ -1,0 +1,60 @@
+{
+ "measuredAt": "2026-10-09",
+ "note": "Laya's choice confidence is converted to Jev's definition, (n*p_max-1)/(n-1), so the two are compared on the same scale.",
+ "laya": {
+  "version": "0.4.1",
+  "checkpoint": "convaiinnovations/laya (ModernBERT-large, 421M)",
+  "hardware": "Apple M2, PyTorch MPS",
+  "latencyP50": 163,
+  "latencyP90": 573,
+  "batchedPerSecond": {
+   "1": 13.0,
+   "16": 16.5,
+   "32": 17.9
+  },
+  "sets": {
+   "agnews": 0.91,
+   "emotiondair": 0.6,
+   "massive": 0.45,
+   "banking77": 0.44,
+   "tickets": 0.741,
+   "wikitoxic_toxicaggregated": 0.91,
+   "amazonpolarity": 0.67
+  },
+  "choiceECE": 0.203,
+  "noulBrier": 0.197,
+  "highConfWrong": 0.268,
+  "highConfShare": 0.55,
+  "ticketConfClear": 0.53,
+  "ticketConfAmbiguous": 0.45,
+  "medianInputTokens": 95
+ },
+ "jev": {
+  "route": "OpenRouter /api/alpha/decisions, 2026-10-08",
+  "sets": {
+   "agnews": 0.88,
+   "emotiondair": 0.63,
+   "massive": 0.76,
+   "banking77": 0.82,
+   "tickets": 1,
+   "wikitoxic_toxicaggregated": 0.92,
+   "amazonpolarity": 0.98
+  },
+  "choiceECE": 0.109,
+  "noulBrier": 0.038,
+  "highConfWrong": 0.115,
+  "highConfShare": 0.733,
+  "ticketConfClear": 0.98,
+  "ticketConfAmbiguous": 0.82,
+  "medianInputTokens": 393
+ },
+ "variants": {
+  "wikitoxic_toxicaggregated | statement+criteria (harness)": 0.91,
+  "wikitoxic_toxicaggregated | statement, no criteria": 0.88,
+  "wikitoxic_toxicaggregated | question, no criteria": 0.88,
+  "amazonpolarity | statement+criteria (harness)": 0.67,
+  "amazonpolarity | statement, no criteria": 0.71,
+  "amazonpolarity | question, no criteria": 0.56
+ },
+ "items": 633
+}
