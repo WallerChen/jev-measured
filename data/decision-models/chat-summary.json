@@ -95,6 +95,29 @@
    "served": [
     "qwen/qwen3.8-flash"
    ]
+  },
+  {
+   "id": "nvidia/nemotron-3-ultra-550b-a55b:free",
+   "effort": "off",
+   "sets": {
+    "agnews": 0.9,
+    "emotiondair": 0.59,
+    "massive": 0.78,
+    "banking77": 0.78,
+    "wikitoxic_toxicaggregated": 0.9,
+    "amazonpolarity": 0.95,
+    "tickets": 0.889
+   },
+   "common": 0.8944444444444444,
+   "emotion": 0.59,
+   "manyOptions": 0.78,
+   "yesNo": 0.925,
+   "unparsed": 19,
+   "medianInputTokens": 132,
+   "usdPer1kItems": 0,
+   "served": [
+    "nvidia/nemotron-3-ultra-550b-a55b:free"
+   ]
   }
  ]
 }
