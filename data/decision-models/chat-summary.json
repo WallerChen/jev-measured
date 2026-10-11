@@ -1,0 +1,100 @@
+{
+ "measuredAt": "2026-10-11",
+ "gateway": "OpenRouter /api/v1/chat/completions",
+ "setup": "temperature 0, reasoning off (or the lowest effort a model accepts), system prompt 'You are a text classifier. Reply with the label only.', one item per request; a reply naming no option counts as wrong",
+ "items": 627,
+ "models": [
+  {
+   "id": "anthropic/claude-haiku-5.5",
+   "effort": "off",
+   "sets": {
+    "agnews": 0.91,
+    "emotiondair": 0.67,
+    "massive": 0.8,
+    "banking77": 0.77,
+    "wikitoxic_toxicaggregated": 0.93,
+    "amazonpolarity": 0.99,
+    "tickets": 1
+   },
+   "common": 0.9550000000000001,
+   "emotion": 0.67,
+   "manyOptions": 0.785,
+   "yesNo": 0.96,
+   "unparsed": 1,
+   "medianInputTokens": 186,
+   "usdPer1kItems": 0.033567942583732004,
+   "served": [
+    "anthropic/claude-haiku-5.5"
+   ]
+  },
+  {
+   "id": "openai/gpt-6-luna",
+   "effort": "off",
+   "sets": {
+    "agnews": 0.85,
+    "emotiondair": 0.6,
+    "massive": 0.79,
+    "banking77": 0.78,
+    "wikitoxic_toxicaggregated": 0.93,
+    "amazonpolarity": 0.97,
+    "tickets": 1
+   },
+   "common": 0.925,
+   "emotion": 0.6,
+   "manyOptions": 0.785,
+   "yesNo": 0.95,
+   "unparsed": 0,
+   "medianInputTokens": 121,
+   "usdPer1kItems": 0.023719776714513564,
+   "served": [
+    "openai/gpt-6-luna"
+   ]
+  },
+  {
+   "id": "deepseek/deepseek-v4.1-flash",
+   "effort": "off",
+   "sets": {
+    "agnews": 0.91,
+    "emotiondair": 0.65,
+    "massive": 0.83,
+    "banking77": 0.78,
+    "wikitoxic_toxicaggregated": 0.93,
+    "amazonpolarity": 0.98,
+    "tickets": 0.963
+   },
+   "common": 0.9364814814814815,
+   "emotion": 0.65,
+   "manyOptions": 0.8049999999999999,
+   "yesNo": 0.9550000000000001,
+   "unparsed": 0,
+   "medianInputTokens": 118,
+   "usdPer1kItems": 0.021950857735247204,
+   "served": [
+    "deepseek/deepseek-v4.1-flash"
+   ]
+  },
+  {
+   "id": "qwen/qwen3.8-flash",
+   "effort": "off",
+   "sets": {
+    "agnews": 0.9,
+    "emotiondair": 0.63,
+    "massive": 0.79,
+    "banking77": 0.75,
+    "wikitoxic_toxicaggregated": 0.92,
+    "amazonpolarity": 0.99,
+    "tickets": 1
+   },
+   "common": 0.95,
+   "emotion": 0.63,
+   "manyOptions": 0.77,
+   "yesNo": 0.9550000000000001,
+   "unparsed": 0,
+   "medianInputTokens": 134,
+   "usdPer1kItems": 0.023118609250398738,
+   "served": [
+    "qwen/qwen3.8-flash"
+   ]
+  }
+ ]
+}

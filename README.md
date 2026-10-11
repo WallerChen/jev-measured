@@ -313,6 +313,24 @@ Raw answers: [`data/decision-models/run.jsonl`](data/decision-models/run.jsonl) 
 
 Scripts: [`bench/laya/`](bench/laya/) (`run_laya.py` reads the same `btzsc-sample.json` and `tickets.json` as `bench/decision-models/`). Write-up: [jev-agent.com/jev-vs-laya](https://jev-agent.com/jev-vs-laya).
 
+## 10. Chat models on the same items (2026-10-11)
+
+Same 627 labelled items as §8 (the six ambiguous tickets have no label and are left out), same instructions and options, through OpenRouter's chat endpoint at temperature 0 with reasoning off. The model is told to reply with one option; a reply naming no option counts as wrong. Grouped as in §8:
+
+| Model | News + tickets | 59–77 options | Yes/no | Emotions | $ per 1,000 items |
+|---|---:|---:|---:|---:|---:|
+| Claude Haiku 5.5 | 95.5% | 78.5% | 96.0% | 67% | $0.0336 |
+| Qwen3.8 Flash | 95.0% | 77.0% | 95.5% | 63% | $0.0231 |
+| DeepSeek V4.1 Flash | 93.6% | 80.5% | 95.5% | 65% | $0.0220 |
+| GPT-6 Luna (chat) | 92.5% | 78.5% | 95.0% | 60% | $0.0237 |
+
+- **Chat models tie decision models on a few options and trail them on many.** With 59 and 77 intents the best chat model here scored 80.5%; Clef Flash scored 92.0% and d1 86.0% (§8).
+- **Same family, two doors:** GPT-6 Luna through chat scored 92.5% / 78.5%; GPT-6 Luna Decisions 94.1% / 79.8% (§8). The chat route billed $0.024 per 1,000 items against $0.040, and returns no probabilities.
+- **Most many-option misses are neighbouring labels:** `order_physical_card` answered `get_physical_card`, `calendar_set` answered `alarm_set`, `transfer_not_received_by_recipient` answered `transfer_timing`.
+- **Not measured:** GPT-6.1 Sol, Claude Sonnet 5.5 and Gemini 3.8 Flash refuse to run with reasoning off; a 21-item pilot at minimal effort is in `chat-run.jsonl` but the full set was not run.
+
+Scripts: [`bench/decision-models/chat.mjs`](bench/decision-models/chat.mjs) and `chat-summarize.mjs`, run from a directory holding the `btzsc-sample.json` and `tickets.json` that `prep.mjs` and `bench/labelled.py` produce (the regenerated sample matched all 600 golds in `run.jsonl`). Raw answers: `data/decision-models/chat-run.jsonl`. Write-up: [jev-agent.com/best-llm-for-text-classification](https://jev-agent.com/best-llm-for-text-classification).
+
 ## Reproduce it
 
 ```bash
