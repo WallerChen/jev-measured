@@ -225,4 +225,156 @@ CASES: dict[str, dict] = {
         },
         "note": "Named contract end date plus a volume figure — should score high on both rubrics.",
     },
+    # Added 2026-10-11, after jevai.org's use cases: four jobs this site had no page for.
+    "invoice-classification": {
+        "state": (
+            "INVOICE INV-2026-0417\n"
+            "From: Northwind Cloud Services Ltd, Dublin\n"
+            "To: Brightlane Studio (accounts payable)\n"
+            "Issue date: 2 October 2026. Due date: 9 October 2026. Received: 6 October 2026 (due in 3 days).\n"
+            "Lines:\n"
+            "  Managed Kubernetes cluster, September .... EUR 1,240.00\n"
+            "  Object storage, 18 TB ..................... EUR 306.00\n"
+            "  Priority support add-on ................... EUR 450.00\n"
+            "  Priority support add-on ................... EUR 450.00\n"
+            "Subtotal EUR 2,446.00. VAT 23% EUR 562.58. Total due EUR 3,008.58.\n"
+            "Late payment fee of 2% after the due date."
+        ),
+        "questions": {
+            "category": Choice(
+                instructions="Which expense category does this invoice belong to?",
+                criteria={
+                    "cloud_hosting": "Servers, cloud platforms, storage and hosting",
+                    "software": "Software licences and SaaS subscriptions",
+                    "contractors": "Freelancers and professional services",
+                    "travel": "Flights, hotels and transport",
+                    "office": "Office supplies, equipment and rent",
+                    "marketing": "Advertising, events and promotion",
+                    "other": "Anything else",
+                },
+            ),
+            "needs_review": _noul(
+                "Should a person check this invoice before it is paid, because a line repeats, the totals do not add up, or a charge looks unusual?",
+                "Needs a human check before payment",
+                "Looks routine",
+            ),
+            "urgency": Score(
+                instructions="How soon must this invoice be paid?",
+                criteria=["No date pressure", "Due this month", "Due within a week", "Due now or overdue"],
+            ),
+        },
+        "note": "A cloud invoice with one line charged twice. The due date is stated as days left, computed in code.",
+    },
+    "news-filtering": {
+        "state": (
+            "READER INTERESTS: open-source AI models, GPU prices, EU AI regulation.\n"
+            "NOT INTERESTED IN: celebrity news, crypto prices, sports.\n\n"
+            "HEADLINE: Cloud providers cut GPU rental prices by a third as new data centres open\n"
+            "SUMMARY: Three of the largest providers matched the cut within a day; analysts expect smaller "
+            "hosts to follow before the end of the quarter."
+        ),
+        "questions": {
+            "keep": _noul(
+                "Does this article match one of the reader's interests?",
+                "Matches an interest",
+                "Off-topic for this reader",
+            ),
+            "relevance": Score(
+                instructions="How relevant is this article to this reader?",
+                criteria=["Not relevant", "Slightly relevant", "Relevant", "Must read"],
+            ),
+            "topic": Choice(
+                instructions="What is the article mainly about?",
+                criteria={
+                    "ai_models": "AI models and research",
+                    "hardware": "Chips, GPUs and data centres",
+                    "regulation": "Laws and policy",
+                    "business": "Companies, markets and deals",
+                    "other": "Anything else",
+                },
+            ),
+        },
+        "note": "A headline that matches one interest (GPU prices) without naming it in the same words.",
+    },
+    "product-categorization": {
+        "state": (
+            "TITLE: TrailFlex 2 Waterproof Hiking Shoe\n"
+            "DESCRIPTION: Lightweight hiking shoe with a breathable waterproof membrane, a recycled mesh upper "
+            "and a grippy outsole for wet rock. Wide fit available. Sizes 36 to 47.\n"
+            "PRICE BAND: mid (USD 90 to 150)"
+        ),
+        "questions": {
+            "category": Choice(
+                instructions="Which category does this product belong in?",
+                criteria={
+                    "footwear": "Shoes, boots and sandals",
+                    "apparel": "Clothing",
+                    "bags": "Bags and backpacks",
+                    "equipment": "Tents, poles and other gear",
+                    "accessories": "Socks, hats, gloves and small items",
+                },
+            ),
+            "activity": Choice(
+                instructions="Which activity is it mainly made for?",
+                criteria={
+                    "hiking": "Hiking and trail walking",
+                    "running": "Running",
+                    "everyday": "Everyday and casual wear",
+                    "climbing": "Climbing and mountaineering",
+                    "travel": "Travel",
+                },
+            ),
+            "audience": Choice(
+                instructions="Who is the product marketed to?",
+                criteria={
+                    "women": "Women",
+                    "men": "Men",
+                    "unisex": "Not tied to a gender",
+                    "kids": "Children",
+                },
+            ),
+            "waterproof": _noul(
+                "Is the product waterproof?",
+                "Waterproof",
+                "Not waterproof, or not stated",
+            ),
+            "sustainability_claim": _noul(
+                "Does the listing make a specific sustainability claim, such as recycled or certified materials?",
+                "Makes a specific claim",
+                "No specific claim",
+            ),
+        },
+        "note": "Category and activity are clear; the audience is not stated, so that answer should be less sure.",
+    },
+    "csv-data-validation": {
+        "state": (
+            "TABLE: customer_orders.csv, one row per order.\n"
+            "COLUMNS: order_id, customer_name, email, country, product, quantity, unit_price_usd, order_date\n"
+            "ROW: 10482, Ana Souza, ana.souza@exmaple.com, Brasil, Wireless mouse, 2, 24.90, 2026-02-30"
+        ),
+        "questions": {
+            "valid": _noul(
+                "Does every field in this row look plausible for its column?",
+                "Every field looks plausible",
+                "At least one field looks wrong",
+            ),
+            "issue": Choice(
+                instructions="Which problem, if any, is the most serious in this row?",
+                criteria={
+                    "none": "No problem",
+                    "email": "The email address looks mistyped or fake",
+                    "country": "The country is misspelled or not in English",
+                    "date": "The date is impossible or malformed",
+                    "product_mismatch": "The product does not fit its price or quantity",
+                    "missing": "A required value is empty",
+                },
+            ),
+            "name_matches_email": _noul(
+                "Does the email address plausibly belong to the named customer?",
+                "Plausibly the same person",
+                "Looks like someone else",
+            ),
+        },
+        "note": "Three planted problems: a misspelled email domain, a non-English country name, and 30 February.",
+    },
 }

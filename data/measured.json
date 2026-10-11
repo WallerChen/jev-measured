@@ -304,6 +304,206 @@
       "input_tokens": 472,
       "cost_usd": 1.9824e-05,
       "model": "typesafe/jev-1.13-20260917"
+    },
+    "invoice-classification": {
+      "slug": "invoice-classification",
+      "state": "INVOICE INV-2026-0417\nFrom: Northwind Cloud Services Ltd, Dublin\nTo: Brightlane Studio (accounts payable)\nIssue date: 2 October 2026. Due date: 9 October 2026. Received: 6 October 2026 (due in 3 days).\nLines:\n  Managed Kubernetes cluster, September .... EUR 1,240.00\n  Object storage, 18 TB ..................... EUR 306.00\n  Priority support add-on ................... EUR 450.00\n  Priority support add-on ................... EUR 450.00\nSubtotal EUR 2,446.00. VAT 23% EUR 562.58. Total due EUR 3,008.58.\nLate payment fee of 2% after the due date.",
+      "note": "A cloud invoice with one line charged twice. The due date is stated as days left, computed in code.",
+      "answers": {
+        "category": {
+          "type": "choice",
+          "choice": "cloud_hosting",
+          "confidence": 1,
+          "probabilities": {
+            "cloud_hosting": 1,
+            "software": 0,
+            "contractors": 0,
+            "travel": 0,
+            "office": 0,
+            "marketing": 0,
+            "other": 0
+          }
+        },
+        "needs_review": {
+          "type": "noul",
+          "noul": 0.87
+        },
+        "urgency": {
+          "type": "score",
+          "score": 2.09,
+          "confidence": 0.87,
+          "legend": {
+            "0": "No date pressure",
+            "1": "Due this month",
+            "2": "Due within a week",
+            "3": "Due now or overdue"
+          },
+          "probabilities": {
+            "0": 0,
+            "1": 0.02,
+            "2": 0.87,
+            "3": 0.11
+          }
+        }
+      },
+      "latency_ms": {
+        "min": 531.2,
+        "median": 632.3,
+        "runs": 3
+      },
+      "input_tokens": 724,
+      "cost_usd": 3.0408e-05,
+      "model": "typesafe/jev-1.13-20260917",
+      "measured_at": "2026-10-11T10:41:02+00:00",
+      "transport": "openrouter"
+    },
+    "news-filtering": {
+      "slug": "news-filtering",
+      "state": "READER INTERESTS: open-source AI models, GPU prices, EU AI regulation.\nNOT INTERESTED IN: celebrity news, crypto prices, sports.\n\nHEADLINE: Cloud providers cut GPU rental prices by a third as new data centres open\nSUMMARY: Three of the largest providers matched the cut within a day; analysts expect smaller hosts to follow before the end of the quarter.",
+      "note": "A headline that matches one interest (GPU prices) without naming it in the same words.",
+      "answers": {
+        "keep": {
+          "type": "noul",
+          "noul": 0.96
+        },
+        "relevance": {
+          "type": "score",
+          "score": 2.7,
+          "confidence": 0.7,
+          "legend": {
+            "0": "Not relevant",
+            "1": "Slightly relevant",
+            "2": "Relevant",
+            "3": "Must read"
+          },
+          "probabilities": {
+            "0": 0,
+            "1": 0.01,
+            "2": 0.28,
+            "3": 0.71
+          }
+        },
+        "topic": {
+          "type": "choice",
+          "choice": "hardware",
+          "confidence": 0.62,
+          "probabilities": {
+            "ai_models": 0,
+            "hardware": 0.7,
+            "regulation": 0,
+            "business": 0.3,
+            "other": 0
+          }
+        }
+      },
+      "latency_ms": {
+        "min": 538.2,
+        "median": 594.6,
+        "runs": 3
+      },
+      "input_tokens": 540,
+      "cost_usd": 2.268e-05,
+      "model": "typesafe/jev-1.13-20260917",
+      "measured_at": "2026-10-11T10:41:02+00:00",
+      "transport": "openrouter"
+    },
+    "product-categorization": {
+      "slug": "product-categorization",
+      "state": "TITLE: TrailFlex 2 Waterproof Hiking Shoe\nDESCRIPTION: Lightweight hiking shoe with a breathable waterproof membrane, a recycled mesh upper and a grippy outsole for wet rock. Wide fit available. Sizes 36 to 47.\nPRICE BAND: mid (USD 90 to 150)",
+      "note": "Category and activity are clear; the audience is not stated, so that answer should be less sure.",
+      "answers": {
+        "category": {
+          "type": "choice",
+          "choice": "footwear",
+          "confidence": 1,
+          "probabilities": {
+            "footwear": 1,
+            "apparel": 0,
+            "bags": 0,
+            "equipment": 0,
+            "accessories": 0
+          }
+        },
+        "activity": {
+          "type": "choice",
+          "choice": "hiking",
+          "confidence": 1,
+          "probabilities": {
+            "hiking": 1,
+            "running": 0,
+            "everyday": 0,
+            "climbing": 0,
+            "travel": 0
+          }
+        },
+        "audience": {
+          "type": "choice",
+          "choice": "unisex",
+          "confidence": 0.92,
+          "probabilities": {
+            "women": 0.01,
+            "men": 0.05,
+            "unisex": 0.94,
+            "kids": 0
+          }
+        },
+        "waterproof": {
+          "type": "noul",
+          "noul": 0.97
+        },
+        "sustainability_claim": {
+          "type": "noul",
+          "noul": 0.96
+        }
+      },
+      "latency_ms": {
+        "min": 529.1,
+        "median": 604.8,
+        "runs": 3
+      },
+      "input_tokens": 706,
+      "cost_usd": 2.9652e-05,
+      "model": "typesafe/jev-1.13-20260917",
+      "measured_at": "2026-10-11T10:41:02+00:00",
+      "transport": "openrouter"
+    },
+    "csv-data-validation": {
+      "slug": "csv-data-validation",
+      "state": "TABLE: customer_orders.csv, one row per order.\nCOLUMNS: order_id, customer_name, email, country, product, quantity, unit_price_usd, order_date\nROW: 10482, Ana Souza, ana.souza@exmaple.com, Brasil, Wireless mouse, 2, 24.90, 2026-02-30",
+      "note": "Three planted problems: a misspelled email domain, a non-English country name, and 30 February.",
+      "answers": {
+        "valid": {
+          "type": "noul",
+          "noul": 0.03
+        },
+        "issue": {
+          "type": "choice",
+          "choice": "date",
+          "confidence": 1,
+          "probabilities": {
+            "none": 0,
+            "email": 0,
+            "country": 0,
+            "date": 1,
+            "product_mismatch": 0,
+            "missing": 0
+          }
+        },
+        "name_matches_email": {
+          "type": "noul",
+          "noul": 0.82
+        }
+      },
+      "latency_ms": {
+        "min": 610.4,
+        "median": 633.6,
+        "runs": 3
+      },
+      "input_tokens": 576,
+      "cost_usd": 2.4192e-05,
+      "model": "typesafe/jev-1.13-20260917",
+      "measured_at": "2026-10-11T10:41:02+00:00",
+      "transport": "openrouter"
     }
   }
 }

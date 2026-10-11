@@ -152,7 +152,9 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--limit", type=int, default=0, help="only run the first N cases")
     parser.add_argument("--repeats", type=int, default=3, help="calls per case; median is reported")
-    parser.add_argument("--only", type=str, default="", help="run a single slug")
+    parser.add_argument("--only", type=str, default="", help="run these slugs (comma-separated)")
+    parser.add_argument("--merge", action="store_true",
+                        help="update only the slugs run here in the existing file, keeping every other case")
     args = parser.parse_args()
 
     _load_dotenv()
@@ -172,7 +174,7 @@ def main() -> int:
     else:
         print("  could not measure — latency will be reported raw only")
 
-    slugs = [args.only] if args.only else list(CASES)
+    slugs = [s.strip() for s in args.only.split(",") if s.strip()] if args.only else list(CASES)
     if args.limit:
         slugs = slugs[: args.limit]
 
@@ -207,6 +209,15 @@ def main() -> int:
         "price_per_1m_input_usd": 0.042,
         "cases": results,
     }
+
+    # --merge: the cases run here replace their own entries and nothing else, each
+    # stamped with when and how it was measured, since the file header describes
+    # the run that wrote the rest.
+    if args.merge and OUT.exists():
+        merged = json.loads(OUT.read_text())
+        for slug, record in results.items():
+            merged["cases"][slug] = {**record, "measured_at": payload["measured_at"], "transport": TRANSPORT}
+        payload = merged
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n")

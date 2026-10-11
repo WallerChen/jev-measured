@@ -1,10 +1,10 @@
 # jev-measured
 
-Measured cost, latency and raw output from the live **Jev** API (TypeSafe AI's System One decision model) across eight realistic use cases. Reproducible: bring your own key and re-run it.
+Measured cost, latency and raw output from the live **Jev** API (TypeSafe AI's System One decision model) across twelve realistic use cases. Reproducible: bring your own key and re-run it.
 
 Published because most numbers circulating about Jev are either the vendor's own or arithmetic from the rate card. These are what the API actually returned.
 
-- **Measured:** 2026-09-18 (cost/latency/shape), 2026-09-20 (accuracy)
+- **Measured:** 2026-09-18 (cost/latency/shape; four more use cases on 2026-10-11), 2026-09-20 (accuracy)
 - **Model:** `typesafe/jev-1.13` via OpenRouter; §8 adds twelve other decision models (2026-10-08)
 - **Raw data:** [`data/measured.json`](data/measured.json)
 - **Cost of the whole run:** under one cent
@@ -15,13 +15,13 @@ Each answer links to the section with the data behind it.
 
 | Question | Answer (measured) |
 |---|---|
-| How much does one Jev decision cost? | **$0.000015–0.000023** across eight real use cases (364–539 input tokens at $0.042 per 1M; output is not billed). [§1](#1-a-real-decision-costs-20-less-than-the-figure-in-circulation) |
+| How much does one Jev decision cost? | **$0.000015–0.000030** across twelve real use cases (364–724 input tokens at $0.042 per 1M; output is not billed). [§1](#1-a-real-decision-costs-20-less-than-the-figure-in-circulation) |
 | How fast is Jev? | 458–563 ms raw from a laptop, of which ~199 ms is the network floor; **184 ms median** from a US-East server through OpenRouter. [§2](#2-quote-latency-twice-or-dont-quote-it), [§8](#8-thirteen-decision-models-on-the-same-633-items-2026-10-08) |
 | Is Jev more accurate than chat models? | **It ties, it does not win:** 27/27 labelled tickets, the same as mistral-small-3.2 (1.4× the price, 4× slower); gemini-2.5-flash-lite and gpt-5-nano scored 26/27. Only Jev also returned a confidence (0.979 clear, 0.841 ambiguous). [§7](#7-accuracy-jev-does-not-win-it-ties) |
 | Which decision model is most accurate? | On 633 items: **d1 96.5%** and **Decider V1.1 96.0%** on simple choices; **Clef Flash 92.0%** and **Clef 89.0%** with 59–77 options; Jev 94.0% / 79.0%; GPT-6 Luna Decisions 94.1% / 79.8%. [§8](#8-thirteen-decision-models-on-the-same-633-items-2026-10-08) |
 | What does `Score` return? | The probability-weighted mean of the rubric **indices** (0..n−1), not 0–1. `Noul` has **no** `confidence` field. [§3](#3-score-is-not-01-and-noul-has-no-confidence-field) |
 | Why does `typesafe/jev` fail on OpenRouter chat completions? | Jev is a decisions model: use `POST /api/alpha/decisions`, not `/chat/completions`. [Gateway gotcha](#️-gateway-gotcha) |
-| Does asking more questions cost more? | No: five questions in one request cost the same as one, because the state is the bill. [§6](#6-five-questions-in-one-request-cost-the-same-as-one) |
+| Does asking more questions cost more? | Only their own text: each question is billed as input tokens, but the state is billed once per request, and five questions return as fast as one. [§6](#6-five-questions-in-one-request-take-the-same-time-as-one) |
 
 ---
 
@@ -29,7 +29,7 @@ Each answer links to the section with the data behind it.
 
 ### 1. A real decision costs ~20× less than the figure in circulation
 
-The number you see quoted for Jev is **~$0.0004 per decision**. Across eight real use cases, the API reported:
+The number you see quoted for Jev is **~$0.0004 per decision**. Across twelve real use cases, the API reported (the four marked * were added on 2026-10-11):
 
 | Use case | Input tokens | Cost reported by the API |
 |---|---:|---:|
@@ -41,8 +41,12 @@ The number you see quoted for Jev is **~$0.0004 per decision**. Across eight rea
 | agent-output-guardrails | 474 | $0.0000199 |
 | phishing-detection | 533 | $0.0000224 |
 | support-ticket-triage | 539 | $0.0000226 |
+| news-filtering* | 540 | $0.0000227 |
+| csv-data-validation* | 576 | $0.0000242 |
+| product-categorization* | 706 | $0.0000297 |
+| invoice-classification* | 724 | $0.0000304 |
 
-**$0.0000153 – $0.0000226**, i.e. roughly 20× below $0.0004.
+**$0.0000153 – $0.0000304**, i.e. 13× to 26× below $0.0004, and about 20× at the median.
 
 This is not a discount and not a vendor error. Pricing is $0.042 per 1M input tokens with no output tokens billed, and cost therefore scales with **one thing only**: your state plus your questions. A real support ticket is a few hundred tokens, not a few thousand. The $0.0004 figure describes a much larger state than most workloads send.
 
@@ -59,6 +63,8 @@ Raw wall-clock medians here are **458–563 ms**. That number is close to meanin
 | Raw round trip | 458–563 ms |
 | Measured network floor | 198.8 ms |
 | Remainder | **259–364 ms** |
+
+The four cases added on 2026-10-11 ran at 595–634 ms raw against a floor of 259.9 ms that day: a remainder of 335–374 ms, close to the first run's band once the floor is taken out.
 
 So this run says little about Jev's speed and a lot about the distance between this machine and the host. `bench/net_floor.py` measures the floor so the two can be separated. Anyone publishing a Jev latency number without doing this is publishing their own geography.
 
@@ -169,7 +175,7 @@ Two undocumented differences, both worth knowing before you pick:
 - The first-party API reports `input_tokens` and `output_tokens` but **no
   cost**. That field is OpenRouter's addition.
 
-## 6. Five questions in one request cost the same as one
+## 6. Five questions in one request take the same time as one
 
 From `x-envoy-upstream-service-time`, the server's own clock, rather than by
 subtracting an estimated network floor:
@@ -331,6 +337,7 @@ Other useful invocations:
 ```bash
 python -m bench.run --limit 1                          # smoke test, prints raw answers
 python -m bench.run --only phishing-detection --repeats 5
+python -m bench.run --only invoice-classification,news-filtering --merge   # re-measure some, keep the rest of data/measured.json
 ```
 
 ### ⚠️ Gateway gotcha
@@ -348,7 +355,7 @@ curl -s https://openrouter.ai/api/v1/models/typesafe/jev-1.13/endpoints
 
 ## How the fixtures are built
 
-Eight use cases in [`bench/fixtures.py`](bench/fixtures.py), each a plain dict: a `state` and the typed questions asked about it.
+Twelve use cases in [`bench/fixtures.py`](bench/fixtures.py) (the last four added on 2026-10-11), each a plain dict: a `state` and the typed questions asked about it.
 
 - **Several states are deliberately ambiguous.** A fixture that returns 1.00 confidence every time teaches nothing about what the probabilities are for. Please don't "improve" them into easy cases.
 - **Failures are recorded, not hidden.** An errored call keeps its error in the output rather than vanishing.
@@ -356,7 +363,7 @@ Eight use cases in [`bench/fixtures.py`](bench/fixtures.py), each a plain dict: 
 
 ## What this is not
 
-Not a broad accuracy benchmark. The eight main fixtures have no ground-truth labels at all — they measure cost, latency and response shape only. `bench/accuracy.py` adds 27 labelled tickets on one task, three passes each, which is enough to show Jev ties rather than wins, and not enough to rank anything. For accuracy at scale see [anisselbd/jev-phishing-bench](https://github.com/anisselbd/jev-phishing-bench) (2,000 labelled emails, Jev vs Claude Haiku 4.5).
+Not a broad accuracy benchmark. The twelve main fixtures have no ground-truth labels at all — they measure cost, latency and response shape only. `bench/accuracy.py` adds 27 labelled tickets on one task, three passes each, which is enough to show Jev ties rather than wins, and not enough to rank anything. For accuracy at scale see [anisselbd/jev-phishing-bench](https://github.com/anisselbd/jev-phishing-bench) (2,000 labelled emails, Jev vs Claude Haiku 4.5).
 
 Not affiliated with TypeSafe AI. Where this disagrees with [docs.typesafe.ai](https://docs.typesafe.ai), the official docs are correct — please open an issue so it can be fixed here.
 
