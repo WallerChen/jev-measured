@@ -355,7 +355,13 @@
       "cost_usd": 3.0408e-05,
       "model": "typesafe/jev-1.13-20260917",
       "measured_at": "2026-10-11T10:41:02+00:00",
-      "transport": "openrouter"
+      "transport": "openrouter",
+      "network_floor": {
+        "host": "openrouter.ai",
+        "ok": true,
+        "min_ms": 197.4,
+        "median_ms": 259.9
+      }
     },
     "news-filtering": {
       "slug": "news-filtering",
@@ -405,7 +411,13 @@
       "cost_usd": 2.268e-05,
       "model": "typesafe/jev-1.13-20260917",
       "measured_at": "2026-10-11T10:41:02+00:00",
-      "transport": "openrouter"
+      "transport": "openrouter",
+      "network_floor": {
+        "host": "openrouter.ai",
+        "ok": true,
+        "min_ms": 197.4,
+        "median_ms": 259.9
+      }
     },
     "product-categorization": {
       "slug": "product-categorization",
@@ -465,7 +477,13 @@
       "cost_usd": 2.9652e-05,
       "model": "typesafe/jev-1.13-20260917",
       "measured_at": "2026-10-11T10:41:02+00:00",
-      "transport": "openrouter"
+      "transport": "openrouter",
+      "network_floor": {
+        "host": "openrouter.ai",
+        "ok": true,
+        "min_ms": 197.4,
+        "median_ms": 259.9
+      }
     },
     "csv-data-validation": {
       "slug": "csv-data-validation",
@@ -503,7 +521,13 @@
       "cost_usd": 2.4192e-05,
       "model": "typesafe/jev-1.13-20260917",
       "measured_at": "2026-10-11T10:41:02+00:00",
-      "transport": "openrouter"
+      "transport": "openrouter",
+      "network_floor": {
+        "host": "openrouter.ai",
+        "ok": true,
+        "min_ms": 197.4,
+        "median_ms": 259.9
+      }
     }
   }
 }

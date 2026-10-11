@@ -211,12 +211,12 @@ def main() -> int:
     }
 
     # --merge: the cases run here replace their own entries and nothing else, each
-    # stamped with when and how it was measured, since the file header describes
-    # the run that wrote the rest.
+    # stamped with when and how it was measured and that run's network floor, since
+    # the file header describes the run that wrote the rest.
     if args.merge and OUT.exists():
         merged = json.loads(OUT.read_text())
         for slug, record in results.items():
-            merged["cases"][slug] = {**record, "measured_at": payload["measured_at"], "transport": TRANSPORT}
+            merged["cases"][slug] = {**record, "measured_at": payload["measured_at"], "transport": TRANSPORT, "network_floor": floor}
         payload = merged
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
