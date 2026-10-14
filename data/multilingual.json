@@ -1,0 +1,149 @@
+{
+ "measured_at": "2026-10-15",
+ "transport": "typesafe",
+ "repeats": 2,
+ "conditions": {
+  "en": {
+   "accuracy_per_pass": [
+    27,
+    27
+   ],
+   "of": 27,
+   "confidence_clear_mean": 0.977,
+   "confidence_ambiguous_mean": 0.838,
+   "input_tokens_mean": 390.8,
+   "models": [
+    "jev-1.13.0"
+   ],
+   "misses": {}
+  },
+  "es": {
+   "accuracy_per_pass": [
+    26,
+    26
+   ],
+   "of": 27,
+   "confidence_clear_mean": 0.96,
+   "confidence_ambiguous_mean": 0.792,
+   "input_tokens_mean": 418.5,
+   "models": [
+    "jev-1.13.0"
+   ],
+   "misses": {
+    "24": {
+     "ticket": "Estimado señor: represento a un cliente que desea transferir 14.500.000 $ y necesito su ayuda.",
+     "label": "spam",
+     "answers": [
+      "billing",
+      "billing"
+     ]
+    }
+   }
+  },
+  "pt": {
+   "accuracy_per_pass": [
+    25,
+    25
+   ],
+   "of": 27,
+   "confidence_clear_mean": 0.96,
+   "confidence_ambiguous_mean": 0.816,
+   "input_tokens_mean": 413.1,
+   "models": [
+    "jev-1.13.0"
+   ],
+   "misses": {
+    "24": {
+     "ticket": "Prezado senhor, represento um cliente que deseja transferir US$ 14.500.000 e preciso da sua ajuda.",
+     "label": "spam",
+     "answers": [
+      "billing",
+      "billing"
+     ]
+    },
+    "25": {
+     "ticket": "Faça seu Instagram chegar a 50 mil seguidores garantidos! Chama no direct para ver os preços do nosso painel SMM.",
+     "label": "spam",
+     "answers": [
+      "sales",
+      "sales"
+     ]
+    }
+   }
+  },
+  "es+en": {
+   "accuracy_per_pass": [
+    26,
+    26
+   ],
+   "of": 27,
+   "confidence_clear_mean": 0.968,
+   "confidence_ambiguous_mean": 0.841,
+   "input_tokens_mean": 395.5,
+   "models": [
+    "jev-1.13.0"
+   ],
+   "misses": {
+    "24": {
+     "ticket": "Estimado señor: represento a un cliente que desea transferir 14.500.000 $ y necesito su ayuda.",
+     "label": "spam",
+     "answers": [
+      "billing",
+      "billing"
+     ]
+    }
+   }
+  },
+  "pt+en": {
+   "accuracy_per_pass": [
+    26,
+    26
+   ],
+   "of": 27,
+   "confidence_clear_mean": 0.97,
+   "confidence_ambiguous_mean": 0.809,
+   "input_tokens_mean": 395.1,
+   "models": [
+    "jev-1.13.0"
+   ],
+   "misses": {
+    "24": {
+     "ticket": "Prezado senhor, represento um cliente que deseja transferir US$ 14.500.000 e preciso da sua ajuda.",
+     "label": "spam",
+     "answers": [
+      "billing",
+      "billing"
+     ]
+    }
+   }
+  },
+  "es-tuned": {
+   "accuracy_per_pass": [
+    27,
+    27
+   ],
+   "of": 27,
+   "confidence_clear_mean": 0.964,
+   "confidence_ambiguous_mean": 0.794,
+   "input_tokens_mean": 425.5,
+   "models": [
+    "jev-1.13.0"
+   ],
+   "misses": {}
+  },
+  "pt-tuned": {
+   "accuracy_per_pass": [
+    27,
+    27
+   ],
+   "of": 27,
+   "confidence_clear_mean": 0.971,
+   "confidence_ambiguous_mean": 0.808,
+   "input_tokens_mean": 418.1,
+   "models": [
+    "jev-1.13.0"
+   ],
+   "misses": {}
+  }
+ }
+}
